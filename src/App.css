@@ -132,7 +132,7 @@
   
 }
 
-/* arthi */
+/* art */
 .container {
   text-align: center;
 }
@@ -178,8 +178,6 @@
 .menu a:nth-child(2).active::after {
   left: 50%; 
 }
-
-
 .webcam-container {
   position: relative;
   display: inline-block;
@@ -235,4 +233,9 @@
   width: 280;
   height: 200,
 }
-
+.custom-spinner-border {
+  border-color: transparent #004385 #004385  ;
+}
+.loader{
+  margin-top: 110px;
+}

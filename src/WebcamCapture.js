@@ -10,6 +10,7 @@ import { BsInfoCircleFill } from "react-icons/bs";
 import studentFace from './images/studentFace.png';
 import idCard from './images/IdCard.jpg';
 import './App.css'
+import { useNavigate } from 'react-router-dom';
 
 const WebcamCapture = () => {
   const webcamRef = useRef(null);
@@ -17,8 +18,8 @@ const WebcamCapture = () => {
   const [idCardSrc, setIdCardSrc] = useState(null);
   const [isCapturingFace, setIsCapturingFace] = useState(true);
   const [faceBox, setFaceBox] = useState(null);
+  const navigate = useNavigate();
   
-
   useEffect(() => {
     const loadModels = async () => {
       await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
@@ -76,6 +77,10 @@ const WebcamCapture = () => {
   const resetCapture = () => {
     setImageSrc(null);
     setIdCardSrc(null);
+  };
+
+  const handleSubmit = () => {
+    navigate('/identitycheck');
   };
 
   return (
@@ -178,7 +183,7 @@ const WebcamCapture = () => {
                 <div>
                   <img style={{ width: 280, height: 200, borderRadius:'8px', margin:'15px'}} src={idCardSrc} alt="Captured ID Card" className="image" />
                   <div className="action-buttons">
-                    <button onClick={() => alert('Submit clicked')}
+                    <button onClick={handleSubmit}
                       style={{ backgroundColor: '#004385', color: '#FFFFFF',marginLeft:"10px" }}>
                       Submit
                     </button>
