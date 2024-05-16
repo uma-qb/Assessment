@@ -131,3 +131,108 @@
   border-left: 5px solid #F6995C;
   
 }
+
+/* arthi */
+.container {
+  text-align: center;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  margin-bottom: 10px; 
+}
+
+.menu a {
+  text-decoration: none;
+  color: #757575; 
+  padding: 10px;
+  display: inline-block;
+  position: relative;
+  font-weight: 500;
+}
+
+.menu a.active {
+  color: rgb(0, 67, 133); 
+}
+
+.menu::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: rgb(0, 67, 133);
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  transition: left 0.3s, width 0.3s;
+}
+
+.menu a.active::after {
+  left: 0; 
+  width: 50%;
+}
+
+.menu a:nth-child(2).active::after {
+  left: 50%; 
+}
+
+
+.webcam-container {
+  position: relative;
+  display: inline-block;
+}
+
+.face-box {
+  position: absolute;
+  border: 2px solid red;
+  z-index: 10;
+}
+
+.capture-button {
+  margin-left: 85px;
+  margin-top:15px;
+  align-items: center;
+  padding: 5px 12px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #004385;
+  color:#FDFDFD;
+}
+
+.image {
+  width: 320px;
+  height: 240px;
+  margin-top: 10px;
+}
+
+.action-buttons {
+  margin-top: 5px;
+}
+
+.action-buttons button {
+  margin: 8px;
+  padding: 5px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 3px;
+  border-color: #004385; 
+  border-width: 1px; 
+  border-style: solid;
+}
+.colm5logo{
+  margin-left: 50px;
+  margin-top: 60px;
+}
+.stdFace{
+  width:80px;
+  height:60px;
+  margin-top: '5px';
+}
+.imgStyle{
+  width: 280;
+  height: 200,
+}
+
