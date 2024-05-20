@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 
 function Firstpage(){
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const handleClick=()=>{
         navigate("/secondpage");

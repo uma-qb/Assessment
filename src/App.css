@@ -78,10 +78,6 @@
   font-size: small;
   font-weight: 600;
 }
-.para1{
-   color:#838383;
-}
-
 .image_wrapper{
   position:relative;
 }
@@ -109,7 +105,6 @@
 }
 .fourth_section{
   position:absolute;
-  
 }
 .colm3{
   background-color: #EDECF2;
@@ -129,7 +124,37 @@
   
  padding: 5px 0 5px 10px;
   border-left: 5px solid #F6995C;
-  
+}
+
+.spinnertick{
+   width: 30px;
+   padding-right: 0;
+}
+.spinner{
+  height: 2rem;
+  width: 2rem;
+}
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  font-size: 20px;
+  color: #333;
+}
+.Title{
+  font-size: 16px;
+  margin: 0px;
+  line-height: 1.4;
+}
+.Formcheck{
+  border-bottom: "1px solid red";
+}
+
+.page_section1{
+  background-image: linear-gradient( rgb(35, 104, 174),rgb(4, 71, 137));
+  min-height: 100vh;
+  display: flex;
 }
 
 /* art */
