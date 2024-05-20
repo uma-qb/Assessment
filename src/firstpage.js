@@ -30,7 +30,7 @@ function Firstpage(){
                         <hr className='hrline' />
                         <h6 className='heading1'>Hi Krishna Kumar!</h6>
                         <p className='heading1'>Welcome to online assessment platform</p>
-                        <div className='container'>
+                        <div>
                             <div className='row'>
                                 <div className='col-3'>
                                     <p className='heading2'>Questions:</p>

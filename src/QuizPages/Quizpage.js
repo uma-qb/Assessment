@@ -20,12 +20,6 @@ function Quizpage() {
         { title: '4', questions: 10, duration : 'Untimed' }
       ];
 
-    //   const userDetials={
-    //     name:"Krishna",
-    //     noOfQuestions:"50",
-    //     sections:"4",
-    //     totalDuration:"80"
-    //   }
   const [selectedSection, setSelectedSection] = useState(()=>-1);
 
   const handleRadioChange = (index) => {
@@ -54,7 +48,7 @@ function Quizpage() {
                 <hr className='hrline' />
                 <h6 className='heading1'>Hi Krishna Kumar!</h6>
                 <p className='heading1'>Welcome to online assessment platform</p>
-                <div className='container'>
+                <div>
                     <div className='row'>
                         <div className='col-3'>
                             <p className='heading2'>Questions:</p>
@@ -83,7 +77,7 @@ function Quizpage() {
             </div>
         </Col>
         <Col className='colm6'>
-            <Card className="container second_section" style={{width:"45rem",height:"30rem"}}>
+            <Card className="second_section" style={{width:"45rem",height:"30rem"}}>
                 <Card.Body>
                     <Card.Title style={{color:"rgb(0, 67, 133)",fontSize:"20px"}}>
                         <p style={{borderBottom:"1px solid black",paddingTop:"10px",paddingBottom:"10px"}}>You are all done and ready!</p>

@@ -6,9 +6,10 @@ import Row from 'react-bootstrap/Row';
 import Card from 'react-bootstrap/Card';
 import logo from './images/qbrainxlogo.png';
 import './App.css';
+import { useNavigate } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
 
 function Secondpage() {
-    // System accessibility
     const [isLoading, setIsLoading] = useState(true);
     const [isSecondLoading, setIsSecondLoading] = useState(false);
     const [browserInfo, setBrowserInfo] = useState('');
@@ -19,7 +20,7 @@ function Secondpage() {
             setBrowserInfo(userAgent);
             setTimeout(() => {
                 setIsLoading(false);
-                setIsSecondLoading(true); // Start the second spinner when the first one completes
+                setIsSecondLoading(true);
             }, 5000);
         };
         checkBrowser();
@@ -29,12 +30,11 @@ function Secondpage() {
         if (isSecondLoading) {
             const timer = setTimeout(() => {
                 setIsSecondLoading(false);
-            }, 5000); // Simulate second loading duration
+            }, 5000);
             return () => clearTimeout(timer);
         }
     }, [isSecondLoading]);
 
-    // Screen sharing
     const [loading, setLoading] = useState(true);
     const [isSharing, setIsSharing] = useState(false);
     const [showMessage, setShowMessage] = useState(false);
@@ -42,18 +42,14 @@ function Secondpage() {
     const [paragraphText, setParagraphText] = useState('Please click on Start Screen Capture button below.');
 
     useEffect(() => {
-        // Simulate a delay of 6000 milliseconds (6 seconds)
         const delay = 6000;
-
-        // Set a timer to execute after the delay
         const timer = setTimeout(() => {
-            setLoading(false); // Update loading state to indicate loading has finished
-            setShowMessage(true); // Update state to show the message after delay
+            setLoading(false);
+            setShowMessage(true);
         }, delay);
 
-        // Clean up the timer on component unmount or if dependencies change
         return () => clearTimeout(timer);
-    }, []); // Empty dependency array means this effect runs only once after initial render
+    }, []);
 
     const startScreenSharing = async () => {
         setIsSharing(true);
@@ -76,6 +72,12 @@ function Secondpage() {
         };
     }, [screenStream]);
 
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate("/webcam");
+    };
+
     return (
         <Row className="third_section">
             <Col className='colm4'>
@@ -86,7 +88,7 @@ function Secondpage() {
                     <hr className='hrline' />
                     <h6 className='heading1'>Hi Krishna Kumar!</h6>
                     <p className='heading1'>Welcome to online assessment platform</p>
-                    <div className='container'>
+                    <div>
                         <div className='row'>
                             <div className='col-3'>
                                 <p className='heading2'>Questions:</p>
@@ -135,7 +137,7 @@ function Secondpage() {
                                                         <Spinner className="spinner" animation="border" variant="primary" />
                                                     </div>
                                                     <div className='row' style={{ width: "500px" }}>
-                                                        <p style={{ color: "rgb(255, 131, 49)", fontSize: "13px", marginLeft: "28px" }}>Checking for system compatibility...</p>
+                                                        <p style={{ color: "rgb(255, 131, 49)", fontSize: "13px"}}>Checking for system compatibility...</p>
                                                     </div>
                                                 </div>
                                             ) : isSecondLoading ? (
@@ -144,7 +146,7 @@ function Secondpage() {
                                                         <Spinner className="spinner" animation="border" variant="secondary" />
                                                     </div>
                                                     <div className='row' style={{ width: "500px" }}>
-                                                        <p style={{ color: "rgb(255, 131, 49)", fontSize: "13px", marginLeft: "28px" }}>Checking additional compatibility...</p>
+                                                        <p style={{ color: "rgb(255, 131, 49)", fontSize: "13px", marginLeft: "28px", textAlign: "left" }}>Checking additional compatibility...</p>
                                                     </div>
                                                 </div>
                                             ) : (
@@ -153,11 +155,11 @@ function Secondpage() {
                                                 </div>
                                             )}
                                         </div>
-                                        <div className='col-11 para1'>
+                                        <div className='col-11' style={{ textAlign: "left" }}>
                                             <p>System Compatibility</p>
                                         </div>
                                     </div>
-                                    <p className='paragraph' style={{marginLeft:"30px"}}>Please make sure Grammar or Spell check plugins are not installed in your system, for example Grammarly, LanguageTool, etc. Please disable/uninstall such plugin(s) as your response might not get saved.</p>
+                                    <p className='paragraph' style={{ marginLeft: "10px" }}>Please make sure Grammar or Spell check plugins are not installed in your system, for example Grammarly, LanguageTool, etc. Please disable/uninstall such plugin(s) as your response might not get saved.</p>
                                 </div>
                             </div>
 
@@ -171,26 +173,26 @@ function Secondpage() {
                                                         <Spinner className="spinner" animation="border" variant="primary" />
                                                     </div>
                                                     <div className="row" style={{ width: "500px" }}>
-                                                        <p style={{ color: "rgb(255, 131, 49)", fontSize: "13px", marginLeft: "28px" }}>Requesting Screen Share Permissions...</p>
+                                                        <p style={{ color: "rgb(255, 131, 49)", fontSize: "13px", marginLeft: "28px", textAlign: "left" }}>Requesting Screen Share Permissions...</p>
                                                     </div>
                                                 </div>
                                             ) : (
                                                 <div>
                                                     <span style={{ fontSize: "20px", color: "green" }}>&#10004;</span>
                                                     <br />
-                                                    <p style={{ marginLeft: "30px", width: "500px" }} className='paragraph'>Screen Share Permissions available.</p>
+                                                    <p style={{ marginLeft: "30px", width: "500px", textAlign: "left" }} className='paragraph'>Screen Share Permissions available.</p>
                                                 </div>
                                             )}
                                         </div>
-                                        <div className="col-11 para1">
+                                        <div className="col-11" style={{ textAlign: "left" }}>
                                             <p>Screen Sharing Permission</p>
                                         </div>
                                     </div>
-                                    <p className="paragraph" style={{ marginLeft: "30px" }}>{paragraphText}</p>
+                                    <p className="paragraph" style={{ marginLeft: "30px", textAlign: "left" }}>{paragraphText}</p>
                                     {!isSharing && (
-                                        <button onClick={startScreenSharing} style={{ marginLeft: "30px", backgroundColor: "rgb(0, 67, 133)", color: "white", border: "none", height: "30px" }}>
+                                        <Button onClick={startScreenSharing} style={{backgroundColor: "rgb(0, 67, 133)", color: "white", border: "none", height: "30px",marginRight:'410px'}}>
                                             Start Screen Capture
-                                        </button>
+                                        </Button>
                                     )}
                                 </div>
                                 {showMessage && (
@@ -201,6 +203,7 @@ function Secondpage() {
                             </div>
                         </div>
                     </Card.Body>
+                    <Button style={{ width: "280px", marginLeft: "200px" }} onClick={handleClick}>Proceed to Identity Check</Button>
                 </Card>
             </Col>
         </Row>
