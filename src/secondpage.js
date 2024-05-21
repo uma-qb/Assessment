@@ -5,35 +5,138 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Card from 'react-bootstrap/Card';
 import logo from './images/qbrainxlogo.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './App.css';
 import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 
 function Secondpage() {
-    const [isLoading, setIsLoading] = useState(true);
-    const [isSecondLoading, setIsSecondLoading] = useState(false);
-    const [browserInfo, setBrowserInfo] = useState('');
+    
+    const intialstate= () => ({
+        checkStart:0,
+        browserversion:false,
+        webCamAndMic:false,
+        screenShare:false
+    })
+    const [systemChecks,setsystemChecks] =useState(intialstate);
+
+
+    async function checkInternetSpeed() {
+        if (navigator.connection && navigator.connection.downlink) {
+          const downlinkSpeedMbps = navigator.connection.downlink;
+          
+          if (downlinkSpeedMbps >= 1) {
+            console.log('Internet speed is sufficient.');
+            return true;
+          } else {
+            console.log('Internet speed is insufficient.');
+            return false;
+          }
+        } else {
+          console.error('Network information not available.');
+          return false;
+        }
+      }
+    async function getLatestBrowserVersions() {
+      
+      
+          const latestVersions = {
+            'Chrome': 113,
+            'Firefox': 112,
+            'Safari': 16,
+            'Edge': 113
+          };
+      
+          return latestVersions;
+        
+      }
+      
+      function getBrowserInfo() {
+        const userAgent = navigator.userAgent;
+        let match = userAgent.match(/(Chrome|Firefox|Safari|Edg)\/(\d+)/);
+        if (!match) {
+          return null;
+        }
+    
+        return {
+            name: match[1],
+            version: parseInt(match[2], 10)
+          };
+      }
+      
+      async function isWithinLastThreeVersions() {
+        const latestVersions = await getLatestBrowserVersions();
+        if (!latestVersions) {
+          return false;
+        }
+      
+        const browserInfo = getBrowserInfo();
+        if (!browserInfo || !latestVersions[browserInfo.name]) {
+          return false;
+        }
+      
+        const currentVersion = latestVersions[browserInfo.name];
+        return browserInfo.version >= currentVersion - 2;
+      }
+      
+      async function browserCheck() {
+        const speedIsSufficient = await checkInternetSpeed();
+
+        if (speedIsSufficient) {
+           const isUpToDate = await isWithinLastThreeVersions();
+          if (isUpToDate) {
+            console.log('Your browser is up-to-date.');
+            return true;
+          } else {
+            console.log('Your browser is not within the last three versions.');
+            return false;
+          }
+        } 
+        return false;
+      }
+     
 
     useEffect(() => {
-        const checkBrowser = () => {
-            const userAgent = navigator.userAgent;
-            setBrowserInfo(userAgent);
-            setTimeout(() => {
-                setIsLoading(false);
-                setIsSecondLoading(true);
-            }, 5000);
-        };
-        checkBrowser();
+      
+      setTimeout(async() => {
+         
+        const browserChecks= await browserCheck();
+        console.log(browserChecks);
+        setsystemChecks((pv)=> ({
+            ...pv,
+            checkStart:1,
+            browserversion:browserChecks
+           }))
+             }, 5000);
+       
     }, []);
 
     useEffect(() => {
-        if (isSecondLoading) {
-            const timer = setTimeout(() => {
-                setIsSecondLoading(false);
-            }, 5000);
-            return () => clearTimeout(timer);
+        if (systemChecks.browserversion) {
+            setTimeout(async() => {
+                setsystemChecks((pv)=> ({
+                    ...pv,
+                    checkStart:2,
+                    webCamAndMic:true
+                   }))
+                     }, 0);
         }
-    }, [isSecondLoading]);
+    }, [systemChecks.browserversion]);
+
+    useEffect(() => {
+        if (systemChecks.webCamAndMic) {
+            setTimeout(async() => {
+         
+                const browserChecks= await browserCheck();
+                console.log(browserChecks);
+                setsystemChecks((pv)=> ({
+                    ...pv,
+                    checkStart:3,
+                    screenShare:true
+                   }))
+                     }, 5000);
+        }
+    }, [systemChecks.webCamAndMic]);
 
     const [loading, setLoading] = useState(true);
     const [isSharing, setIsSharing] = useState(false);
@@ -41,15 +144,15 @@ function Secondpage() {
     const [screenStream, setScreenStream] = useState(null);
     const [paragraphText, setParagraphText] = useState('Please click on Start Screen Capture button below.');
 
-    useEffect(() => {
-        const delay = 6000;
-        const timer = setTimeout(() => {
-            setLoading(false);
-            setShowMessage(true);
-        }, delay);
+    // useEffect(() => {
+    //     const delay = 6000;
+    //     const timer = setTimeout(() => {
+    //         setLoading(false);
+    //         setShowMessage(true);
+    //     }, delay);
 
-        return () => clearTimeout(timer);
-    }, []);
+    //     return () => clearTimeout(timer);
+    // }, []);
 
     const startScreenSharing = async () => {
         setIsSharing(true);
@@ -57,6 +160,7 @@ function Secondpage() {
 
         try {
             const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+            console.log(stream);
             setScreenStream(stream);
         } catch (err) {
             console.error('Error accessing screen:', err);
@@ -71,6 +175,27 @@ function Secondpage() {
             }
         };
     }, [screenStream]);
+
+ useEffect(() => {
+    console.log("hi");
+    console.log(screenStream);
+        return () => {
+            if (screenStream) {
+                screenStream.getTracks().forEach(track => track.stop());
+
+            }
+        };
+
+      
+    }, [screenStream]);
+
+    function disabled()
+    {
+       return systemChecks.checkStart===3&&
+       systemChecks.browserversion&&
+       systemChecks.webCamAndMic&&
+       systemChecks.screenShare
+    }
 
     const navigate = useNavigate();
 
@@ -131,22 +256,13 @@ function Secondpage() {
                                 <div className='col-12'>
                                     <div className='row'>
                                         <div className='col-1 spinnertick'>
-                                            {isLoading ? (
+                                            {systemChecks.checkStart==0 && !systemChecks.browserversion? (
                                                 <div>
                                                     <div className='row'>
                                                         <Spinner className="spinner" animation="border" variant="primary" />
                                                     </div>
                                                     <div className='row' style={{ width: "500px" }}>
                                                         <p style={{ color: "rgb(255, 131, 49)", fontSize: "13px"}}>Checking for system compatibility...</p>
-                                                    </div>
-                                                </div>
-                                            ) : isSecondLoading ? (
-                                                <div>
-                                                    <div className='row'>
-                                                        <Spinner className="spinner" animation="border" variant="secondary" />
-                                                    </div>
-                                                    <div className='row' style={{ width: "500px" }}>
-                                                        <p style={{ color: "rgb(255, 131, 49)", fontSize: "13px", marginLeft: "28px", textAlign: "left" }}>Checking additional compatibility...</p>
                                                     </div>
                                                 </div>
                                             ) : (
@@ -159,7 +275,7 @@ function Secondpage() {
                                             <p>System Compatibility</p>
                                         </div>
                                     </div>
-                                    <p className='paragraph' style={{ marginLeft: "10px" }}>Please make sure Grammar or Spell check plugins are not installed in your system, for example Grammarly, LanguageTool, etc. Please disable/uninstall such plugin(s) as your response might not get saved.</p>
+                                    <p className='paragraph' style={{ marginLeft: "30px", textAlign: "left" }}>Please make sure Grammar or Spell check plugins are not installed in your system, for example Grammarly, LanguageTool, etc. Please disable/uninstall such plugin(s) as your response might not get saved.</p>
                                 </div>
                             </div>
 
@@ -167,7 +283,7 @@ function Secondpage() {
                                 <div className="col-12">
                                     <div className="row">
                                         <div className="col-1 spinnertick">
-                                            {loading ? (
+                                            { systemChecks.checkStart===2 && !systemChecks.screenShare? (
                                                 <div>
                                                     <div className="row">
                                                         <Spinner className="spinner" animation="border" variant="primary" />
@@ -176,20 +292,21 @@ function Secondpage() {
                                                         <p style={{ color: "rgb(255, 131, 49)", fontSize: "13px", marginLeft: "28px", textAlign: "left" }}>Requesting Screen Share Permissions...</p>
                                                     </div>
                                                 </div>
-                                            ) : (
+                                            ) : systemChecks.checkStart===3 && systemChecks.screenShare?(
                                                 <div>
                                                     <span style={{ fontSize: "20px", color: "green" }}>&#10004;</span>
+                                                    <FontAwesomeIcon icon="fa-solid fa-check" />
                                                     <br />
                                                     <p style={{ marginLeft: "30px", width: "500px", textAlign: "left" }} className='paragraph'>Screen Share Permissions available.</p>
                                                 </div>
-                                            )}
+                                            ):null}
                                         </div>
                                         <div className="col-11" style={{ textAlign: "left" }}>
                                             <p>Screen Sharing Permission</p>
                                         </div>
                                     </div>
                                     <p className="paragraph" style={{ marginLeft: "30px", textAlign: "left" }}>{paragraphText}</p>
-                                    {!isSharing && (
+                                    {systemChecks.screenShare && (
                                         <Button onClick={startScreenSharing} style={{backgroundColor: "rgb(0, 67, 133)", color: "white", border: "none", height: "30px",marginRight:'410px'}}>
                                             Start Screen Capture
                                         </Button>
@@ -203,7 +320,7 @@ function Secondpage() {
                             </div>
                         </div>
                     </Card.Body>
-                    <Button style={{ width: "280px", marginLeft: "200px" }} onClick={handleClick}>Proceed to Identity Check</Button>
+                    <Button style={{ width: "280px", marginLeft: "200px" }} disabled={!disabled()} onClick={handleClick}>Proceed to Identity Check</Button>
                 </Card>
             </Col>
         </Row>
