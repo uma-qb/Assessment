@@ -36,13 +36,13 @@ import timerImage from './../images/timer.jpg'
      // Effect to navigate when timer reaches 0
     useEffect(() => {
         if (seconds === 0) {
-        navigate('/quizfirstpage');
+        navigate('/test');
     }
   }, [seconds, navigate]);
 
 
     const handleClick=()=>{
-        navigate("/quizfirstpage");
+        navigate("/test");
   }
   
 

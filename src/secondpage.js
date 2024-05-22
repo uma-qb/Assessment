@@ -110,7 +110,7 @@ function Secondpage() {
              }, 5000);
        
     }, []);
-
+ 
     useEffect(() => {
         if (systemChecks.browserversion) {
             setTimeout(async() => {
@@ -157,7 +157,7 @@ function Secondpage() {
     const startScreenSharing = async () => {
         setIsSharing(true);
         setParagraphText('Click on the ‘Hide’ Button shown below for better visibility.');
-
+ 
         try {
             const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
             console.log(stream);
@@ -167,7 +167,7 @@ function Secondpage() {
             setIsSharing(false);
         }
     };
-
+ 
     useEffect(() => {
         return () => {
             if (screenStream) {
@@ -207,7 +207,7 @@ function Secondpage() {
         <Row className="third_section">
             <Col className='colm4'>
                 <div className='colm5'>
-                    <Image src={logo} alt="QBRAINX" className='logoimage' style={{ height: "40px", width: "150px", background: "white" }} />
+                    <Image src={logo} alt="QBRAINX" className='logoimage' style={{ height: "40px", width: "150px" }} />
                     <br /><br />
                     <h5 className='heading1'>LTI_Assessment Preliminary</h5>
                     <hr className='hrline' />
@@ -241,10 +241,10 @@ function Secondpage() {
                 </div>
             </Col>
             <Col className='colm6'>
-                <Card className="container second_section" style={{ width: "45rem", height: "28rem" }}>
+                <Card className="second_section" style={{ width: "45rem", height: "28rem" }}>
                     <Card.Body>
-                        <Card.Title style={{ color: "rgb(0, 67, 133)", fontSize: "23px", padding: "10px" }}>System Compatibility and Permissions</Card.Title>
-                        <div className='container heading3'>
+                        <Card.Title style={{ color: "rgb(0, 67, 133)", fontSize: "23px",marginLeft:"15px" }}>System Compatibility and Permissions</Card.Title>
+                        <div className='heading3'>
                             <div className='row heading4'>
                                 <div className='col-12'>
                                     <div className='warning_msg'>
@@ -259,7 +259,7 @@ function Secondpage() {
                                             {systemChecks.checkStart==0 && !systemChecks.browserversion? (
                                                 <div>
                                                     <div className='row'>
-                                                        <Spinner className="spinner" animation="border" variant="primary" />
+                                                        <Spinner className="custom-spinner-secondpage-border" animation="border" variant="primary" />
                                                     </div>
                                                     <div className='row' style={{ width: "500px" }}>
                                                         <p style={{ color: "rgb(255, 131, 49)", fontSize: "13px"}}>Checking for system compatibility...</p>
@@ -278,7 +278,7 @@ function Secondpage() {
                                     <p className='paragraph' style={{ marginLeft: "30px", textAlign: "left" }}>Please make sure Grammar or Spell check plugins are not installed in your system, for example Grammarly, LanguageTool, etc. Please disable/uninstall such plugin(s) as your response might not get saved.</p>
                                 </div>
                             </div>
-
+ 
                             <div className="row heading4">
                                 <div className="col-12">
                                     <div className="row">
@@ -286,7 +286,7 @@ function Secondpage() {
                                             { systemChecks.checkStart===2 && !systemChecks.screenShare? (
                                                 <div>
                                                     <div className="row">
-                                                        <Spinner className="spinner" animation="border" variant="primary" />
+                                                        <Spinner className="custom-spinner-secondpage-border" animation="border" variant="primary" />
                                                     </div>
                                                     <div className="row" style={{ width: "500px" }}>
                                                         <p style={{ color: "rgb(255, 131, 49)", fontSize: "13px", marginLeft: "28px", textAlign: "left" }}>Requesting Screen Share Permissions...</p>
@@ -326,5 +326,5 @@ function Secondpage() {
         </Row>
     );
 }
-
+ 
 export default Secondpage;

@@ -23,14 +23,14 @@ function Firstpage(){
             <Row className="first_section">
                 <Col className='colm1'>
                     <div className='colm2'>
-                        <Image src={logo} alt="QBRAINX" className='logoimage' style={{ height:"40px",width:"150px",background:"white"}}/>
+                        <Image src={logo} alt="QBRAINX" className='logoimage' style={{ height:"40px",width:"150px"}}/>
                          <br></br>
                          <br></br>
                         <h5 className='heading1'>LTI_Assessment Preliminary</h5>
                         <hr className='hrline' />
                         <h6 className='heading1'>Hi Krishna Kumar!</h6>
                         <p className='heading1'>Welcome to online assessment platform</p>
-                        <div>
+                        <div >
                             <div className='row'>
                                 <div className='col-3'>
                                     <p className='heading2'>Questions:</p>
@@ -62,15 +62,15 @@ function Firstpage(){
                 <Col className='colm3'>
                     <Card className="container second_section" style={{width:"45rem",height:"28rem"}}>
                         <Card.Body>
-                            <Card.Title style={{padding:"30px"}}>Important Note</Card.Title>
+                            <Card.Title style={{padding:"30px",textAlign:"left"}}>Important Note</Card.Title>
                             <div className='container heading3'>
                                 <div className='row heading4'>
                                     <div className='col-2'>
                                         <Image src={modemimage} className='logo1' alt="warning"/>
                                     </div>
                                     <div className='col-9'>
-                                        <h6 className='para'>Internet Connectivity</h6>
-                                        <p className='paragraph'>Ensure that you have a stable internet conection with a minimum speed of 512 kbps</p>
+                                        <h6 className='para' style={{textAlign:"left"}}>Internet Connectivity</h6>
+                                        <p className='paragraph'style={{textAlign:"left"}}>Ensure that you have a stable internet conection with a minimum speed of 512 kbps</p>
                                     </div>
                                 </div>
                                 <div className='row heading4'>
@@ -78,8 +78,8 @@ function Firstpage(){
                                         <Image src={refreshimage} className='logo1' alt="warning"/>
                                     </div>
                                     <div className='col-9'>
-                                        <h6 className='para'>Don't Refresh</h6>
-                                        <p className='paragraph'>Don't refresh the webpage during the assessment. This will lead to immediate submission of your responses.</p>
+                                        <h6 className='para' style={{textAlign:"left"}}>Don't Refresh</h6>
+                                        <p className='paragraph' style={{textAlign:"left"}}>Don't refresh the webpage during the assessment. This will lead to immediate submission of your responses.</p>
                                     </div>
                                 </div>
                                 <div className='row heading4'>
@@ -87,8 +87,8 @@ function Firstpage(){
                                         <Image src={autosaveimage} className='logo1' alt="warning"/>
                                     </div>
                                     <div className='col-9'>
-                                        <h6 className='para'>Auto Save</h6>
-                                        <p className='paragraph'>All your responses are saved automatically. In case of disconnection or shutdown,you will still be able to resume easily.</p>
+                                        <h6 className='para' style={{textAlign:"left"}}>Auto Save</h6>
+                                        <p className='paragraph' style={{textAlign:"left"}}>All your responses are saved automatically. In case of disconnection or shutdown,you will still be able to resume easily.</p>
                                     </div>
                                 </div>
                             </div>

@@ -9,25 +9,24 @@ import Card from 'react-bootstrap/card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from "react-router-dom";
-
-
+ 
+ 
 function Quizpage() {
-
+ 
     const sections = [
         { title: '1', questions: 10, duration : '30 minutes' },
         { title: '2', questions: 10, duration : '30 minutes' },
         { title: '3', questions: 10, duration : 'Untimed*' },
         { title: '4', questions: 10, duration : 'Untimed' }
       ];
-
   const [selectedSection, setSelectedSection] = useState(()=>-1);
-
+ 
   const handleRadioChange = (index) => {
     setSelectedSection(index);
   };
-
+ 
   const navigate = useNavigate()
-
+ 
   const handleStartTest = () => {
     if (selectedSection !== null) {
       const selectedSectionInfo = sections[selectedSection];
@@ -36,12 +35,12 @@ function Quizpage() {
       navigate("/quizproceed");
     }
   };
-  
+ 
   return (
     <Row className="third_section">
         <Col className='colm4'>
             <div className='colm5'>
-                <Image src={logo} alt="QBRAINX" className='logoimage' style={{ height:"40px",width:"150px",background:"white"}}/>
+                <Image src={logo} alt="QBRAINX" className='logoimage' style={{ height:"44px",width:"150px"}}/>
                 <br></br>
                 <br></br>
                 <h5 className='heading1'>LTI_Assessment Preliminary</h5>
@@ -81,10 +80,10 @@ function Quizpage() {
                 <Card.Body>
                     <Card.Title style={{color:"rgb(0, 67, 133)",fontSize:"20px"}}>
                         <p style={{borderBottom:"1px solid black",paddingTop:"10px",paddingBottom:"10px"}}>You are all done and ready!</p>
-                        <h6 style={{color:"black",fontWeight:"400",fontSize:"15px"}}>Select the section you like to begin the test with and click on “Start Test” 
+                        <h6 style={{color:"black",fontWeight:"400",fontSize:"15px"}}>Select the section you like to begin the test with and click on “Start Test”
                            button. Or you can navigate within sections once you start the test.</h6>
                     </Card.Title>
-                    
+                   
                     <Form>
                         {sections.map((section, index) => (
                             <div key={`section-${index}`} style={{borderBottom:"1px solid black",paddingBottom:"8px",paddingTop:"8px"}}>
@@ -105,7 +104,7 @@ function Quizpage() {
                         ))}
                     </Form>
                     <div>
-                    <Button 
+                    <Button
                     style={{width:"300px",marginLeft:"200px",marginTop:"40px"}}
                      variant="primary"  onClick={handleStartTest}
                      disabled={selectedSection === -1}>Start Test</Button>
@@ -116,5 +115,5 @@ function Quizpage() {
     </Row>
   )
 }
-
+ 
 export default Quizpage;

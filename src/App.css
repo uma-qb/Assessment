@@ -57,6 +57,7 @@
 }
 .heading3{
   padding-top: 10px;
+  margin-left: 20px;
 }
 .heading4{
   padding-bottom: 15px;
@@ -156,6 +157,13 @@
   min-height: 100vh;
   display: flex;
 }
+.custom-spinner-secondpage-border{
+  border-color: transparent #004385 #004385  ;
+  font-size: x-small;
+  width: 0px; /* Adjust the width */
+  height: 30px;
+  border-width: 3px; 
+}
 
 /* art */
 .container {
@@ -210,7 +218,7 @@
 
 .face-box {
   position: absolute;
-  border: 2px solid red;
+  border: 2px solid rgb(83, 234, 83);
   z-index: 10;
 }
 
@@ -261,6 +269,6 @@
 .custom-spinner-border {
   border-color: transparent #004385 #004385  ;
 }
-.loader{
+.load{
   margin-top: 110px;
 }

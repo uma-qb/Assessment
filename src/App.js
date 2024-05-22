@@ -10,6 +10,9 @@ import Quizpage from './QuizPages/Quizpage';
 import QuizProceed from './QuizPages/QuizProceed';
 import QuizFirstPage from './QuizPages/QuizFirstPage';
 import WebCam from './webcam';
+import TestPage from './Test/TestPage';
+
+
 
 function App() {
   return (
@@ -25,6 +28,7 @@ function App() {
         <Route path='/quizproceed' element={<QuizProceed/>} />
         <Route path='/quizfirstpage' element={<QuizFirstPage/>}/>
         <Route path='/web' element={<WebCam/>}/>
+        <Route path="/test" element={<TestPage/>}/>
       </Routes>
     </Router>
    

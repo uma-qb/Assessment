@@ -74,9 +74,16 @@ const WebcamCapture = () => {
     }
   };
 
-  const resetCapture = () => {
-    setImageSrc(null);
-    setIdCardSrc(null);
+  // const resetCapture = ( ) => {
+  //   setImageSrc(null);
+  //   setIdCardSrc(null);
+  // };
+  const resetCapture = (type) => {
+    if (type === 'face') {
+      setImageSrc(null);
+    } else if (type === 'idCard') {
+      setIdCardSrc(null);
+    }
   };
 
   const handleSubmit = () => {
@@ -87,7 +94,7 @@ const WebcamCapture = () => {
     <Row className="third_section">
       <Col className='colm4'>
         <div className='colm5logo'>
-          <Image src={logo} alt="QBRAINX" className='logoimage' style={{ height: "40px", width: "150px", background: "white" }} />
+          <Image src={logo} alt="QBRAINX" className='logoimage' style={{ height: "40px", width: "150px" }} />
           <br></br>
           <br></br>
           <Card style={{ width: "25rem", height: "24rem" }}>
@@ -172,7 +179,7 @@ const WebcamCapture = () => {
                 <div className="action-buttons">
                   <button onClick={() => setIsCapturingFace(false)} 
                   style={{ backgroundColor: '#004385', color: '#FFFFFF',marginLeft:"20px" }}>Proceed</button>
-                  <button onClick={resetCapture}
+                  <button onClick={() => resetCapture('face')}
                     style={{ outlineColor: '#1E5994', backgroundColor: '#F5FAFF', color: ' #1E5994' }}>Re-Capture Face</button>
                 </div>
               </div>
@@ -187,7 +194,7 @@ const WebcamCapture = () => {
                       style={{ backgroundColor: '#004385', color: '#FFFFFF',marginLeft:"10px" }}>
                       Submit
                     </button>
-                    <button onClick={resetCapture}
+                    <button onClick={() => resetCapture('idCard')}
                       style={{ outlineColor: '#1E5994', backgroundColor: '#F5FAFF', color: ' #1E5994' }}>
                       Re-Capture ID Card
                     </button>
@@ -219,7 +226,7 @@ const WebcamCapture = () => {
                           top: `${faceBox.y}px`,
                           width: `${faceBox.width}px`,
                           height: `${faceBox.height}px`,
-                          border: '2px solid red',
+                          border: '2px solid rgb(83, 234, 83)',
                           position: 'absolute',
                         }}
                       ></div>

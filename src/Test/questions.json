@@ -1,0 +1,239 @@
+{
+  "sections": [
+    {
+      "name": "Section 1",
+      "sectionTime": 1200,
+      "questions": [
+        {
+          "number": 1,
+          "text": "If a train 150 meters long is running at a speed of 60 km/hr, how long will it take to cross a bridge 300 meters long?",
+          "options": ["22 seconds", "25 seconds", "30 seconds", "35 seconds"]
+        },
+        {
+          "number": 2,
+          "text": "A person who can do a piece of work in 5 days and another person who can do it in 10 days start the work together. In how many days will they complete the work?",
+          "options": ["3 days", "3.33 days", "4 days", "4.5 days"]
+        },
+        {
+          "number": 3,
+          "text": "If the ratio of the ages of two brothers is 4:5 and the sum of their ages is 45 years, what are their ages?",
+          "options": ["18 and 27", "20 and 25", "24 and 21", "20 and 24"]
+        },
+        {
+          "number": 4,
+          "text": "If the cost price of 20 articles is equal to the selling price of 15 articles, what is the profit percent?",
+          "options": ["25%", "33.33%", "50%", "66.67%"]
+        },
+        {
+          "number": 5,
+          "text": "If the compound interest on a sum of money for 2 years at 5% per annum is $410, what is the principal amount?",
+          "options": ["$4000", "$4200", "$4400", "$4600"]
+        },
+        {
+          "number": 6,
+          "text": "If a man walks at a speed of 5 km/hr, how long will it take him to cover a distance of 20 km?",
+          "options": ["2 hours", "3 hours", "4 hours", "5 hours"]
+        },
+        {
+          "number": 7,
+          "text": "If the perimeter of a rectangle is 60 cm and its length is twice its breadth, what are the length and breadth of the rectangle?",
+          "options": ["10 cm and 20 cm", "15 cm and 30 cm", "20 cm and 10 cm", "15 cm and 20 cm"]
+        },
+        {
+          "number": 8,
+          "text": "A, B and C can do a piece of work in 24, 30 and 40 days respectively. They start the work together, but C leaves 4 days before the completion of the work. In how many days is the work done?",
+          "options": ["14 days", "15 days", "16 days", "17 days"]
+        },
+        {
+          "number": 9,
+          "text": "If the average of 5 numbers is 20 and the average of 3 of those numbers is 15, what is the average of the remaining 2 numbers?",
+          "options": ["20", "25", "30", "35"]
+        },
+        {
+          "number": 10,
+          "text": "If a car travels 150 km in 2 hours, what is its average speed?",
+          "options": ["60 km/hr", "70 km/hr", "75 km/hr", "80 km/hr"]
+        }
+      ]
+    },
+    {
+      "name": "Section 2",
+      "sectionTime": 1200,
+      "questions": [
+        {
+          "number": 1,
+          "text": "Dummy question 1 for Section 2",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 2,
+          "text": "Dummy question 2 for Section 2",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 3,
+          "text": "Dummy question 3 for Section 2",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 4,
+          "text": "Dummy question 4 for Section 2",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 5,
+          "text": "Dummy question 5 for Section 2",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 6,
+          "text": "Dummy question 6 for Section 2",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 7,
+          "text": "Dummy question 7 for Section 2",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 8,
+          "text": "Dummy question 8 for Section 2",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 9,
+          "text": "Dummy question 9 for Section 2",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 10,
+          "text": "Dummy question 10 for Section 2",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        }
+      ]
+    },
+    {
+      "name": "Section 3",
+      "sectionTime": 1200,
+      "questions": [
+        {
+          "number": 1,
+          "text": "Dummy question 1 for Section 3",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 2,
+          "text": "Dummy question 2 for Section 3",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 3,
+          "text": "Dummy question 3 for Section 3",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 4,
+          "text": "Dummy question 4 for Section 3",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 5,
+          "text": "Dummy question 5 for Section 3",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 6,
+          "text": "Dummy question 6 for Section 3",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 7,
+          "text": "Dummy question 7 for Section 3",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 8,
+          "text": "Dummy question 8 for Section 3",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 9,
+          "text": "Dummy question 9 for Section 3",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 10,
+          "text": "Dummy question 10 for Section 3",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        }
+      ]
+    },
+    {
+      "name": "Section 4",
+      "sectionTime": 1200,
+      "questions": [
+        {
+          "number": 1,
+          "text": "Dummy question 1 for Section 4",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 2,
+          "text": "Dummy question 2 for Section 4",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 3,
+          "text": "Dummy question 3 for Section 4",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 4,
+          "text": "Dummy question 4 for Section 4",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 5,
+          "text": "Dummy question 5 for Section 4",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 6,
+          "text": "Dummy question 6 for Section 4",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 7,
+          "text": "Dummy question 7 for Section 4",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 8,
+          "text": "Dummy question 8 for Section 4",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 9,
+          "text": "Dummy question 9 for Section 4",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        },
+        {
+          "number": 10,
+          "text": "Dummy question 10 for Section 4",
+          "options": ["Option A", "Option B", "Option C", "Option D"]
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "userName": "Arthi"
+    },
+    {
+      "userName": "Preethi"
+    }
+  ],
+  "timers": {
+    "totalTestTime": 4800
+  }
+}
