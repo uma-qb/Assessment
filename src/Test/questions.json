@@ -140,31 +140,6 @@
           "number": 5,
           "text": "Dummy question 5 for Section 3",
           "options": ["Option A", "Option B", "Option C", "Option D"]
-        },
-        {
-          "number": 6,
-          "text": "Dummy question 6 for Section 3",
-          "options": ["Option A", "Option B", "Option C", "Option D"]
-        },
-        {
-          "number": 7,
-          "text": "Dummy question 7 for Section 3",
-          "options": ["Option A", "Option B", "Option C", "Option D"]
-        },
-        {
-          "number": 8,
-          "text": "Dummy question 8 for Section 3",
-          "options": ["Option A", "Option B", "Option C", "Option D"]
-        },
-        {
-          "number": 9,
-          "text": "Dummy question 9 for Section 3",
-          "options": ["Option A", "Option B", "Option C", "Option D"]
-        },
-        {
-          "number": 10,
-          "text": "Dummy question 10 for Section 3",
-          "options": ["Option A", "Option B", "Option C", "Option D"]
         }
       ]
     },
@@ -196,32 +171,8 @@
           "number": 5,
           "text": "Dummy question 5 for Section 4",
           "options": ["Option A", "Option B", "Option C", "Option D"]
-        },
-        {
-          "number": 6,
-          "text": "Dummy question 6 for Section 4",
-          "options": ["Option A", "Option B", "Option C", "Option D"]
-        },
-        {
-          "number": 7,
-          "text": "Dummy question 7 for Section 4",
-          "options": ["Option A", "Option B", "Option C", "Option D"]
-        },
-        {
-          "number": 8,
-          "text": "Dummy question 8 for Section 4",
-          "options": ["Option A", "Option B", "Option C", "Option D"]
-        },
-        {
-          "number": 9,
-          "text": "Dummy question 9 for Section 4",
-          "options": ["Option A", "Option B", "Option C", "Option D"]
-        },
-        {
-          "number": 10,
-          "text": "Dummy question 10 for Section 4",
-          "options": ["Option A", "Option B", "Option C", "Option D"]
         }
+        
       ]
     }
   ],

@@ -11,8 +11,8 @@ import QuizProceed from './QuizPages/QuizProceed';
 import QuizFirstPage from './QuizPages/QuizFirstPage';
 import WebCam from './webcam';
 import TestPage from './Test/TestPage';
-
-
+import SummaryPage from './Summary/SummaryPage';
+import Feedback from './Summary/Feedback';
 
 function App() {
   return (
@@ -29,6 +29,8 @@ function App() {
         <Route path='/quizfirstpage' element={<QuizFirstPage/>}/>
         <Route path='/web' element={<WebCam/>}/>
         <Route path="/test" element={<TestPage/>}/>
+        <Route path='summary' element={<SummaryPage/>}/>
+        <Route path='feedback' element={<Feedback/>}/>
       </Routes>
     </Router>
    

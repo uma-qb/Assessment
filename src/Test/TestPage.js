@@ -10,9 +10,11 @@ import { BsCloudCheck, BsClockHistory, BsBookmarkFill, BsBookmark } from "react-
 import questionsData from './questions.json';
 import logo from './../images/qbrainxlogo.png';
 import { BsX } from "react-icons/bs";
+import { useNavigate } from 'react-router-dom';
 import './Test.css';
 
 function TestPage() {
+  const navigate = useNavigate();
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedChoices, setSelectedChoices] = useState({});
@@ -20,6 +22,11 @@ function TestPage() {
   const [sectionChoices, setSectionChoices] = useState(
     Array(questionsData.sections.length).fill({}).map(() => ({}))
   );
+
+  const handleFinishTestClick = () => {
+    navigate('/summary', {
+    });
+  };
 
   // Initialize timers from JSON
   const totalTestDuration = questionsData.timers.totalTestTime;
@@ -155,6 +162,7 @@ function TestPage() {
 
   const attemptedCount = Object.keys(selectedChoices).length;
 
+
   return (
     <div>
       <Row className="cardtest_section">
@@ -183,7 +191,7 @@ function TestPage() {
           </div>
         </Col>
         <Col xs={12} md={2} style={{ float: "right", marginRight: "20px" }}>
-          <Button className='finishbtn'>Finish Test</Button>
+          <Button className='finishbtn' onClick={handleFinishTestClick}>Finish Test</Button>
         </Col>
       </Row>
       <Row>
