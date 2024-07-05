@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import Image from 'react-bootstrap/Image';
 import Col from 'react-bootstrap/Col';
@@ -10,11 +10,13 @@ import './App.css';
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import BgLayout from './Components/BgLayout';
+import UserContext from './UserContext';
 
 const Secondpage = () => {
     const location = useLocation();
-    const { responseData } = location.state || {}
-    console.log(responseData);
+    const { userData } = useContext(UserContext)
+    const responseData = userData;
+    console.log(responseData)
 
     const intialstate = () => ({
         checkStart: 0,

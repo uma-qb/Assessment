@@ -9,11 +9,12 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from "react-router-dom";
 import BgLayout from './Components/BgLayout';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import UserContext from './UserContext';
 
 const Firstpage = () => {
-
+    const {setUserData} = useContext(UserContext)
     const navigate = useNavigate();
     const [responseData, setResponseData] = useState({})
 
@@ -22,6 +23,7 @@ const Firstpage = () => {
         const fetchData = async () => {
             const response = await axios.get('http://127.0.0.1:8000/api/quiz_details/s6FyVfpfXhGjZDaSI23x3f2eiXNGsNEMwVtm7PFv');
             setResponseData(response.data);
+            setUserData(response.data);
         };
 
         fetchData();
@@ -30,11 +32,11 @@ const Firstpage = () => {
 
     const handleClick = () => {
         if (responseData.system_check == 1) {
-            navigate("/secondpage", {state: {responseData}});
+            navigate("/secondpage");
         } else if (responseData.identity_check == 1) {
-            navigate("/webcam", {state: {responseData}});
+            navigate("/webcam");
         } else {
-            navigate("/quiz", {state: {responseData}});
+            navigate("/quiz");
         }
     }
     return (

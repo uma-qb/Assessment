@@ -13,9 +13,11 @@ import WebCam from './webcam';
 import TestPage from './Test/TestPage';
 import SummaryPage from './Summary/SummaryPage';
 import Feedback from './Summary/Feedback';
+import { UserProvider } from './UserContext';
 
 function App() {
   return (
+    <UserProvider>
     <Router>
       <Routes>
         <Route exact path="/" element={<FirstPage />} />
@@ -33,6 +35,7 @@ function App() {
         <Route path='feedback' element={<Feedback/>}/>
       </Routes>
     </Router>
+    </UserProvider>
    
   );
 }
