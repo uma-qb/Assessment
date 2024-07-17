@@ -5,10 +5,30 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
- 
+  overflow-x: hidden;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.form-check-input {
+  border: 1px solid #98a1ab !important;
+  cursor: pointer;
+}
+
+.accordion-button:not(.collapsed) {
+background-color: none !important;
+box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25)
+}
+
+.accordion-button:active {
+--bs-accordion-active-bg: none !important;
+}
+
+.btn:disabled, .btn-primary:disabled {
+  background-color: #fff !important;
+  border: 1px solid black !important;
+  color: #000 !important;
 }

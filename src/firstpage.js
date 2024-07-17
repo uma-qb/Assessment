@@ -21,13 +21,14 @@ const Firstpage = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get('http://127.0.0.1:8000/api/quiz_details/s6FyVfpfXhGjZDaSI23x3f2eiXNGsNEMwVtm7PFv');
+            // const response = await axios.get('http://127.0.0.1:8000/api/quiz_details/s6FyVfpfXhGjZDaSI23x3f2eiXNGsNEMwVtm7PFv');
+            const response = await axios.get('http://127.0.0.1:8000/api/quiz_details/wE08op8SzWKPJsblZWif54pi8VR9L6fFP9eDCKhB');
             setResponseData(response.data);
             setUserData(response.data);
         };
 
         fetchData();
-    }, []);
+    }, [setUserData]);
     console.log(responseData)
 
     const handleClick = () => {

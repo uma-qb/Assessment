@@ -22,17 +22,26 @@ const Secondpage = () => {
         checkStart: 0,
         browserversion: false,
         webCamAndMic: false,
-        screenShare: false
+        screenShare: false,
+        InternetSpeed: false,
+
     })
     const [systemChecks, setsystemChecks] = useState(intialstate);
 
+    const updateSystemChecks = (key, value) => {
+        setsystemChecks((prevState) => ({
+          ...prevState,
+          [key]: value,
+        }));
+      };
 
     async function checkInternetSpeed() {
         if (navigator.connection && navigator.connection.downlink) {
             const downlinkSpeedMbps = navigator.connection.downlink;
             console.log(downlinkSpeedMbps)
-            if (downlinkSpeedMbps >= 0.5) {
+            if (downlinkSpeedMbps >= 1) {
                 console.log('Internet speed is sufficient.');
+                updateSystemChecks('InternetSpeed', true);
                 return true;
             } else {
                 console.log('Internet speed is insufficient.');
@@ -48,7 +57,7 @@ const Secondpage = () => {
 
 
         const latestVersions = {
-            'Chrome': 113,
+            'Chrome': 113, // 130
             'Firefox': 112,
             'Safari': 16,
             'Edge': 113
@@ -78,6 +87,7 @@ const Secondpage = () => {
         }
 
         const browserInfo = getBrowserInfo();
+        console.log(browserInfo)
         if (!browserInfo || !latestVersions[browserInfo.name]) {
             return false;
         }
@@ -90,8 +100,10 @@ const Secondpage = () => {
         const speedIsSufficient = await checkInternetSpeed();
 
         if (speedIsSufficient) {
+
             const isUpToDate = await isWithinLastThreeVersions();
             if (isUpToDate) {
+                updateSystemChecks('browserversion', true);
                 console.log('Your browser is up-to-date.');
                 return true;
             } else {
@@ -106,14 +118,8 @@ const Secondpage = () => {
     useEffect(() => {
 
         setTimeout(async () => {
-
             const browserChecks = await browserCheck();
-            console.log(browserChecks);
-            setsystemChecks((pv) => ({
-                ...pv,
-                checkStart: 1,
-                browserversion: browserChecks
-            }))
+            updateSystemChecks('checkStart', 1);
         }, 5000);
 
     }, []);
@@ -207,9 +213,9 @@ const Secondpage = () => {
 
     const handleClick = () => {
         if (responseData.identity_check == 1) {
-            navigate("/webcam", {state: {responseData}});
+            navigate("/webcam", { state: { responseData } });
         } else {
-            navigate("/quiz", {state: {responseData}});
+            navigate("/quiz", { state: { responseData } });
         }
         // navigate("/webcam");
     };
@@ -219,7 +225,7 @@ const Secondpage = () => {
             <Col className='colm4'>
                 <div className='colm5'>
                     <BgLayout details={responseData} />
-                    <Button className="mt-4" style={{ width: "280px"}} disabled={!disabled()} onClick={handleClick}>{responseData.identity_check ? 'Proceed to Identity Check' : 'Proceed to Quiz'}</Button>
+                    <Button className="mt-4" style={{ width: "280px" }} disabled={!disabled()} onClick={handleClick}>{responseData.identity_check ? 'Proceed to Identity Check' : 'Proceed to Quiz'}</Button>
                 </div>
             </Col>
             <Col className='colm6'>
@@ -238,7 +244,7 @@ const Secondpage = () => {
                                 <div className='col-12'>
                                     <div className='row'>
                                         <div className='col-1 spinnertick'>
-                                            {systemChecks.checkStart == 0 && !systemChecks.browserversion ? (
+                                            {systemChecks.checkStart === 0 && !systemChecks.browserversion ? (
                                                 <div>
                                                     <div className='row'>
                                                         <Spinner className="custom-spinner-secondpage-border" animation="border" variant="primary" />
@@ -247,17 +253,24 @@ const Secondpage = () => {
                                                         <p style={{ color: "rgb(255, 131, 49)", fontSize: "13px" }}>Checking for system compatibility...</p>
                                                     </div>
                                                 </div>
+                                            ) : systemChecks.checkStart === 1 && !systemChecks.browserversion ? (
+                                                <div>
+                                                    <span style={{ fontSize: "20px", color: "red" }}>❌</span>
+                                                </div>
                                             ) : (
                                                 <div>
-                                                    <span style={{ fontSize: "20px", color: "green" }}>&#10004;</span>
+                                                    <span style={{ fontSize: "20px", color: "red" }}>&#10004;</span>
                                                 </div>
                                             )}
+
                                         </div>
                                         <div className='col-11' style={{ textAlign: "left" }}>
                                             <p>System Compatibility</p>
                                         </div>
                                     </div>
                                     <p className='paragraph' style={{ marginLeft: "30px", textAlign: "left" }}>Please make sure Grammar or Spell check plugins are not installed in your system, for example Grammarly, LanguageTool, etc. Please disable/uninstall such plugin(s) as your response might not get saved.</p>
+                                    {(systemChecks.checkStart === 1 && !systemChecks.InternetSpeed) && (<small className='text-danger d-sm-block fw-medium px-4'>Internet Speed is Insufficient!.</small>)}
+                                    {(systemChecks.checkStart === 1 && !systemChecks.browserversion) && (<small className='text-danger d-sm-block fw-medium px-4'>Incompatible Browser Version. Please Upgrade Your Browser.</small>)}
                                 </div>
                             </div>
 
