@@ -4,9 +4,9 @@
   }
   .vertical-line {
     border-left: 1.5px solid #FFF8ED;
-    height: 60px; 
     margin-left: 0 ;
     margin-top: 12px;
+    height: calc(100vh - 215px);
   }
   .name{
     color:#F1FEC6;
@@ -22,8 +22,11 @@
   .card_section{
     position:absolute;
     top:80px;
-    right:62px;
-    left:62px;
+    right:0;
+    left:0;
+    width: 94%;
+    margin: 0 auto;
+    height: calc(100vh - 120px) !important;
   }
   .cardtest_section{
     position:relative;
@@ -75,7 +78,8 @@
   }
   .verticalLine{
     border-left: 1px solid #B6B6B6;
-    height: 405px; 
+    height: calc(100vh - 195px);
+    /* height: 405px;  */
   }
   .prevButton{
     background: none;

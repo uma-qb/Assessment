@@ -1,0 +1,128 @@
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style-type: none;
+  transition: ease 0.2s;
+  font-family: Open Sans;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+body {
+  background: #0f6cbd;
+}
+
+.card-container {
+  background: #f8faff;
+  color: #4b537c;
+  width: 100%;
+  max-width: 450px;
+  padding: 40px;
+  border-radius: 15px;
+  margin: 0 auto;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.feedback-msg textarea {
+  margin-top: 5px;
+  border: solid 2px #e0e9fe;
+  padding: 13px;
+  border-radius: 7px;
+  outline: none;
+  font-size: 14px;
+  color: #4b537c;
+  font-weight: 500;
+  letter-spacing: 1px;
+  width: 100%;
+  height: 80px;
+  resize: none;
+}
+
+.buttonsec {
+  display: flex;
+  gap: 10px;
+  justify-content: end;
+}
+
+#feed_submit {
+  background: #03a9f4;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  border-radius: 4px;
+  border: 1px solid #03a9f4;
+}
+#feed_submit:hover {
+  text-decoration: none;
+  opacity: 0.7;
+}
+.top-para {
+  text-align: center;
+  margin: 0;
+}
+
+.feedback-level {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.level {
+  background: white;
+  padding: 13px;
+  border-radius: 7px;
+  border: solid 0.5px #e0e9fe;
+  cursor: pointer;
+}
+.level:hover {
+  box-shadow: #03a9f4 0 2px 5px;
+}
+.level:hover i {
+  color: #03a9f4;
+}
+
+.level.active {
+  box-shadow: #03a9f4 0 2px 5px;
+}
+.level.active i {
+  color: #03a9f4;
+}
+
+.level i {
+  font-size: 40px;
+}
+
+.heading {
+  text-align: center;
+  font-weight: 600;
+  margin: 0;
+}
+.tooltip {
+  cursor: pointer;
+}
+.para {
+  font-weight: 600;
+}
+
+.thanks-content {
+  text-align: center;
+}
+.thanks-content h3 {
+  font-weight: bold;
+  margin-top: 0;
+}
+.thanks-content p {
+  font-size: 17px;
+  line-height: 26px;
+}
+
+.green-tick {
+  margin: 0 auto;
+  width: 100px;
+}

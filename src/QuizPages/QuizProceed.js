@@ -12,9 +12,9 @@ function QuizProceed() {
   const location = useLocation();
   const { questions } = useContext(UserContext);
   console.log(questions)
-  const { sectionID, group } = location.state
+  // const { sectionID, group } = location.state
+  
   const navigate = useNavigate();
-  console.log(sectionID)
 
   const [seconds, setSeconds] = useState(5);
 
@@ -51,7 +51,8 @@ function QuizProceed() {
 
   const handleClick = () => {
 
-    navigate('/test', { state: { sectionID: sectionID, group: group } });
+    navigate('/test');
+    // navigate('/test', { state: { sectionID: sectionID, group: group } });
     // setTimeout(() => {
     //   const element = document.documentElement;
     //   if (element.requestFullscreen) {
@@ -63,7 +64,7 @@ function QuizProceed() {
     //   } else if (element.msRequestFullscreen) { // IE/Edge
     //     element.msRequestFullscreen();
     //   }
-    // }, 500);
+    // }, 100);
   }
 
 

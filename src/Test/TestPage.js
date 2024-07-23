@@ -14,15 +14,18 @@ import './Test.css';
 import UserContext from '../UserContext';
 import { Form } from 'react-bootstrap';
 import axios from 'axios';
-import Toastify from '../Components/Toastify';
 import { TbProgress } from "react-icons/tb";
+import Offcanvas from 'react-bootstrap/Offcanvas';
+import SummaryPage from '../Summary/SummaryPage';
+import { Slide, toast } from 'react-toastify';
 
 function TestPage() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { questions } = useContext(UserContext)
-  const { sectionID, group } = location.state
+  // const location = useLocation();
+  const { questions, selectedSection: sectionID, selectedGroup: group } = useContext(UserContext)
+  // const { sectionID, group } = location.state
   const testQuestions = questions;
+  const totalTestDuration = testQuestions.total_duration * 60;
   // console.log(testQuestions.questions)
 
   // const data = testQuestions.questions;
@@ -69,21 +72,31 @@ function TestPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedChoices, setSelectedChoices] = useState({});
   const [revisitQuestions, setRevisitQuestions] = useState({});
+  const [revisitValues, setRevisitValues] = useState({});
   const [sectionChoices, setSectionChoices] = useState([]);
   const [attemptedCount, setAttemptedCount] = useState();
+  const [finalReportResponse, setFinalReportResponse] = useState({});
+  const [showCanvas, setShowCanvas] = useState(false);
+  const [sectionwiseReport, setSectionwiseReport] = useState([]);
+  const handleCanvasClose = () => setShowCanvas(false);
+
+  if (!localStorage.getItem("totalTestTimeTaken")) {
+    localStorage.setItem("totalTestTimeTaken", totalTestDuration);
+  }
+
 
   // Array(questionsData.length).fill({}).map(() => ({}))
 
-  // console.log(sectionChoices);
+
 
   const [savingCompleted, setSavingCompleted] = useState(false);
   const [savingInprogress, setSavingInprogress] = useState(false)
   const [options, setOptions] = useState()
   // const [currentSectionID, setCurrentSectionID] = useState(sectionID)
   const [currentGroup, setCurrentGroup] = useState(group)
-  const [showToast, setShowToast] = useState(false)
-  const [errorMessage, setErrorMessage] = useState(null)
 
+  const [errorMessage, setErrorMessage] = useState(null)
+  const token = localStorage.getItem("token")
 
   const transformResponseToSections = (data) => {
     const sections = data?.questions;
@@ -169,7 +182,6 @@ function TestPage() {
     setOptions(opt);
     localStorage.setItem('startTime', currentTime)
 
-
     /*
     const handleFullscreenChange = (e) => {
 
@@ -209,16 +221,29 @@ function TestPage() {
       const differenceInHour = Math.floor(differenceInMinutes / 60);
       return differenceInSeconds;
     }
-
   }
 
-  const handleFinishTestClick = () => {
-    navigate('/summary', {
-    });
+
+
+  const handleFinishTestClick = async () => {
+    const response = await axios.get(`http://127.0.0.1:8000/api/get_final_report/${token}`);
+    let category_group = response.data.counts_by_category_group
+    setSectionwiseReport([category_group])
+    // let reportResponse = {}
+    // Object.keys(reportRespond).forEach((category) => {
+    // console.log(reportRespond[category])
+    // let { attempted, unattempted, revisit } = reportRespond[category]
+    // reportResponse[category] = { "attempted": attempted, "unattempted": unattempted, "revisit": revisit }
+    // })
+    // console.log(reportResponse)
+
+    setShowCanvas(true)
+    // navigate('/summary', {
+    // });
   };
 
   // Initialize timers from JSON
-  const totalTestDuration = testQuestions.total_duration * 60; // converting minutes to seconds
+  // const totalTestDuration = testQuestions.total_duration * 60; // converting minutes to seconds
   // const sectionDurations = questionsData.sections.map(section => section.sectionTime);
 
   const getSectionDuration = (sections) => {
@@ -241,19 +266,56 @@ function TestPage() {
   const sectionDuration = { 6: 40, 5: 80, 7: 25 }
   // console.log(sectionDuration[currentSectionID]);
 
-  const [totalTestTime, setTotalTestTime] = useState(totalTestDuration);
+  const [totalTestTime, setTotalTestTime] = useState(() => {
+    const savedTime = localStorage.getItem("totalTestTimeTaken")
+    return savedTime !== null ? parseInt(savedTime, 10) : 0;
+  });
   const [sectionTimes, setSectionTimes] = useState(sectionDuration);
   // const sectionTimeRef = useRef(sectionDuration[currentSectionID] * 60);
   const sectionTimeRef = useRef(sectionDuration[currentSectionIndex] * 60);
   const prevSectionRef = useRef(sectionDuration[currentSectionIndex]);
 
+  // useEffect(() => {
+  //   localStorage.setItem("totalTestTimeTaken", totalTestTime);
+  // }, [totalTestTime])
+
   useEffect(() => {
-    const totalTestTimer = setInterval(() => {
-      setTotalTestTime(prevTime => {
-        if (prevTime <= 1) clearInterval(totalTestTimer);
-        return prevTime - 1;
-      });
-    }, 1000);
+    let totalTestTimer;
+    if (totalTestTime > 0) {
+      totalTestTimer = setInterval(() => {
+        setTotalTestTime(prevTime => {
+          if (prevTime <= 1) {
+            clearInterval(totalTestTimer);
+          }
+          const newTime = prevTime - 1
+          localStorage.setItem('totalTestTimeTaken', newTime);
+          // if (newTime <= 0) {
+          //   clearInterval(totalTestTimer);
+          //   return 0; // Ensure the time does not go below 0
+          // }
+          return newTime
+          // }
+          // if (prevTime <= 1) clearInterval(totalTestTimer);
+          // return prevTime - 1;
+        });
+
+      }, 1000);
+    }
+
+    if (totalTestTime == 0) {
+      let errMsg = "Time UP!"
+      toast.error(errMsg, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide
+      })
+    }
 
     const sectionTimer = setInterval(() => {
       setSectionTimes(prevTimes => {
@@ -310,10 +372,10 @@ function TestPage() {
     const timeTaken = await calculateTimeDifference()
     console.log(timeTaken)
     const data = {
-      token: "wE08op8SzWKPJsblZWif54pi8VR9L6fFP9eDCKhB",
+      token: token,
       qq_id: currentQuestion.qq_id,
       oid: option,
-      time: timeTaken
+      timeTaken: timeTaken
     }
     let config = {}
     if (option === null) {
@@ -342,26 +404,61 @@ function TestPage() {
       }
     } finally {
       setSavingInprogress(false)
-      getAttemptedCount()
+      getFinalReport()
     }
   }
 
-  const getAttemptedCount = async () => {
+  const getFinalReport = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/get_final_report/wE08op8SzWKPJsblZWif54pi8VR9L6fFP9eDCKhB");
-      console.log(response.data.counts_by_category_group[currentGroup][currentSectionIndex].attempted)
-      setAttemptedCount(response.data.counts_by_category_group[currentGroup][currentSectionIndex].attempted)
+      const response = await axios.get(`http://127.0.0.1:8000/api/get_final_report/${token}`);
+      setFinalReportResponse(response.data)
+      const responseDetails = response.data.counts_by_category_group[currentGroup][currentSectionIndex]
+      console.log(response.data)
+      setAttemptedCount(responseDetails.attempted)
+      const questionsDetails = responseDetails.questions_details
+      const revisit = questionsDetails.reduce((acc, question, index) => {
+        acc[index + 1] = question.revisit;
+        return acc;
+      }, {});
+      setRevisitValues(revisit)
+
     } catch (error) {
       console.log(error.response)
     }
   }
 
+
   useEffect(() => {
     setSavingCompleted(false)
     const currentTime = new Date().toISOString();
     localStorage.setItem('startTime', currentTime)
-    getAttemptedCount()
+    getFinalReport()
+    // console.log(currentGroup)
+    // console.log(currentSectionIndex)
+    // console.log(finalReportResponse)
+
+    // console.log(currentSectionIndex) [currentGroup][currentSectionIndex][questions_details]
   }, [currentPage, currentSection])
+
+  useEffect(() => {
+    if (Object.keys(selectedChoices).length == 0 && attemptedCount > 0) {
+      const fetchQuestions = async () => {
+        try {
+          const response = await axios.get(`http://127.0.0.1:8000/api/get_final_report/${token}`)
+          const question_wise_report = response.data.questions_wise_report
+          let selectedChoices = {}
+          Object.keys(question_wise_report).forEach((category) => {
+            const { qq_id, selected_oid } = question_wise_report[category]
+            selectedChoices[qq_id] = selected_oid;
+          })
+          setSelectedChoices(selectedChoices)
+        } catch (error) {
+          console.log(error.response)
+        }
+      }
+      fetchQuestions()
+    }
+  }, [attemptedCount])
 
 
   const handleChoiceChange = (questionNumber, choice) => {
@@ -428,27 +525,31 @@ function TestPage() {
 
   };
 
+
   const handleToggleRevisit = (questionNumber) => {
-    const revisit = async (revisit) => {
-      try {
-        const response = await axios.put("http://127.0.0.1:8000/api/revisit_question", { token: "wE08op8SzWKPJsblZWif54pi8VR9L6fFP9eDCKhB", qq_id: currentQuestion.qq_id, revisit: revisit })
-        console.log(revisit)
-      } catch (error) {
-        console.log(error.response)
-      }
-    }
+
+    // const revisit = async (revisit) => {
+    //   try {
+    //     const response = await axios.put("http://127.0.0.1:8000/api/revisit_question", { token: token, qq_id: currentQuestion.qq_id, revisit: revisit })
+    //     getFinalReport()
+    //     // console.log(revisit)
+    //   } catch (error) {
+    //     // console.log(error.response)
+    //   }
+    // }
     setRevisitQuestions((prevRevisitQuestions) => {
       const key = `${currentSectionIndex}-${questionNumber}`;
       const newRevisitQuestions = { ...prevRevisitQuestions };
       if (newRevisitQuestions[key]) {
         delete newRevisitQuestions[key];
-        revisit(0)
+        // revisit(0)
       } else {
         newRevisitQuestions[key] = true;
-        revisit(1)
+        // revisit(1)
       }
       return newRevisitQuestions;
     });
+    console.log(revisitQuestions)
   };
 
   const formatTime = (seconds) => {
@@ -468,13 +569,23 @@ function TestPage() {
     const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 
     for (let i = startPage; i <= endPage; i++) {
+      // const serverBookmark = Boolean(revisitValues[i]);
+      // const shouldShowBookmark = (revisitQuestions[`${currentSectionIndex}-${i}`] || serverBookmark)
       paginationItems.push(
         <Pagination.Item
           key={i}
           active={i === currentPage}
           onClick={() => handlePageChange(i)}
         >
-          {revisitQuestions[`${currentSectionIndex}-${i}`] && <BsBookmarkFill style={{ color: 'orange', width: "10px", height: "10px" }} />} {i}
+          {/* {revisitQuestions[`${currentSectionIndex}-${i}`]
+            ? <BsBookmarkFill style={{ color: 'orange', width: "10px", height: "10px" }} />
+            : revisitValues[i] ? <BsBookmarkFill style={{ color: 'orange', width: "10px", height: "10px" }} />
+              : null
+          } {i} */}
+          {revisitQuestions[`${currentSectionIndex}-${i}`]
+            ? <BsBookmarkFill style={{ color: 'orange', width: "10px", height: "10px" }} />
+            : null
+          } {i}
         </Pagination.Item>
       );
     }
@@ -507,12 +618,12 @@ function TestPage() {
         </Col>
         <Col xs={12} md={3}>
           <div style={{ float: "right", color: "white" }}>
-            {totalTestTime && sectionTimes[currentSectionIndex] && (<><BsClockHistory className='clockIcon' style={{ marginTop: "28px", color: "white", float: "left" }} />
+            {totalTestTime !== 0 && sectionTimes[currentSectionIndex] && (<><BsClockHistory className='clockIcon' style={{ marginTop: "28px", color: "white", float: "left" }} />
               <div style={{ float: "right", color: "white", marginTop: "20px" }}>
                 {/* <span>Section Time: {formatTime(sectionTimes[currentSectionIndex])}</span> */}
                 <span>Section Time: N/A</span>
                 <div></div>
-                <span>Total Test Time: {formatTime(totalTestTime)}</span>
+                <span>{(totalTestTime) ? `Total Test Time: ${formatTime(totalTestTime)}`: ""}</span>
               </div></>)}
           </div>
         </Col>
@@ -522,7 +633,7 @@ function TestPage() {
       </Row>
       <Row>
         <Col>
-          <Card className="card_section" style={{ width: "73rem", height: "30rem" }}>
+          <Card className="card_section">
             <Card.Body>
               <Card.Title style={{ marginBottom: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -569,15 +680,25 @@ function TestPage() {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: "20px" }}>
                     <span style={{ fontWeight: "bold" }}>Question {currentQuestion.number}</span>
                     <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => handleToggleRevisit(currentPage)}>
-                      {revisitQuestions[`${currentSectionIndex}-${currentPage}`] ? (
+                      {/* {(revisitQuestions[`${currentSectionIndex}-${currentPage}`]) ? (
                         <BsBookmarkFill style={{ marginRight: '2px', width: "13px", height: "13px", color: 'orange' }} />
+                      ) : (revisitValues[currentPage]) ? (
+                        <BsBookmarkFill style={{ marginRight: '2px', width: "13px", height: "13px", color: 'red' }} />
                       ) : (
                         <BsBookmark style={{ marginRight: '2px', width: "13px", height: "13px" }} />
-                      )}
-                      <span>{revisitQuestions[`${currentSectionIndex}-${currentPage}`] ? 'Remove Revisit' : 'Revisit'}</span>
+                      )} 
+                      <span>{revisitQuestions[`${currentSectionIndex}-${currentPage}`] ? 'Remove Revisit' :
+                        revisitValues[currentPage] ? 'Remove Revisit' :
+                          'Revisit'}</span>*/}
+                      {(revisitQuestions[`${currentSectionIndex}-${currentPage}`]) ? (
+                        <BsBookmarkFill style={{ marginRight: '2px', width: "13px", height: "13px", color: 'orange' }} />
+                      ) : <BsBookmark style={{ marginRight: '2px', width: "13px", height: "13px" }} />
+                      }
+                      <span>{revisitQuestions[`${currentSectionIndex}-${currentPage}`] ? 'Remove Revisit' :
+                        'Revisit'}</span>
                     </div>
                   </div>
-                  <p>{currentQuestion.question}</p>
+                  <p>{currentQuestion.question}{currentQuestion.qq_id}</p>
                   <div>{currentQuestion.description}</div>
                 </Col>
                 <Col xs="auto" className="verticalLine"></Col>
@@ -606,8 +727,12 @@ function TestPage() {
             </Card.Body>
           </Card>
         </Col>
-        <Toastify message={errorMessage} showToast={showToast} />
       </Row>
+      <Offcanvas show={showCanvas} onHide={handleCanvasClose} placement="end" className="custom-offcanvas">
+        <Offcanvas.Body>
+          <SummaryPage sectionwiseReport={sectionwiseReport} handleCanvasClose={handleCanvasClose} attemptedCount={finalReportResponse?.overall_counts?.attempted} revisitCount={finalReportResponse?.overall_counts?.revisit} totalQuestions={finalReportResponse?.overall_counts?.attempted + finalReportResponse?.overall_counts?.unattempted} />
+        </Offcanvas.Body>
+      </Offcanvas>
     </div>
   );
 }

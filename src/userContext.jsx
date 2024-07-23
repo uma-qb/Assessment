@@ -13,6 +13,15 @@ export const UserProvider = ({ children }) => {
         return savedQuestions ? JSON.parse(savedQuestions) : null;
     })
 
+    const [selectedSection, setSelectedSection] = useState(() => {
+        const selectedSect = localStorage.getItem('selectedSection');
+        return selectedSect ? JSON.parse(selectedSect) : null;
+    });
+    const [selectedGroup, setSelectedGroup] = useState(() => {
+        const selectedGrp = localStorage.getItem('selectedGroup');
+        return selectedGrp ? JSON.parse(selectedGrp) : null;
+    });
+
     useEffect(() => {
         if (userData) {
             localStorage.setItem('userData', JSON.stringify(userData));
@@ -25,8 +34,17 @@ export const UserProvider = ({ children }) => {
         }
     }, [questions]);
 
+    useEffect(() => {
+        if (selectedSection) {
+            localStorage.setItem('selectedSection', JSON.stringify(selectedSection))
+        }
+        if (selectedGroup) {
+            localStorage.setItem('selectedGroup', JSON.stringify(selectedGroup))
+        }
+    }, [selectedSection, selectedGroup])
+
     return (
-        <UserContext.Provider value={{ userData, setUserData, questions, setQuestions }}>
+        <UserContext.Provider value={{ userData, setUserData, questions, setQuestions, selectedGroup, setSelectedGroup, selectedSection, setSelectedSection }}>
             {children}
         </UserContext.Provider>
     );

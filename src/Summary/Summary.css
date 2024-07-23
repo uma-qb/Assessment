@@ -10,6 +10,6 @@
     margin-right: 25px;
 }
 .sectionTitle{
-    margin-left:  20px;
-    margin-right: 20px;
+    margin: 5px 0 !important;
+    display: block;
 }

@@ -32,3 +32,43 @@ box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25)
   border: 1px solid black !important;
   color: #000 !important;
 }
+
+.custom-offcanvas {
+  width: 500px !important;
+}
+
+.Toastify__toast-container {
+  min-width: 350px !important;
+  width: auto !important;
+}
+
+
+/* progress bar styles*/
+
+.stacked-bar {
+  display: flex;
+  width: 100%;
+  height: 20px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-bar-segment {
+  height: 100%;
+  text-align: center;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.attempted {
+  background-color: #7fc97f; /* green for attempted */
+}
+
+.revisit {
+  background-color: #fdc086; /* Orange for revisit */
+}
+
+.unattempted {
+  background-color: #ff9696; /* Red for unattempted */
+}
