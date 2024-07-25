@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 function WebCam() {
+    const location = useLocation();
+    const {responseData} = location.state || {}
     const [isCameraEnabled, setIsCameraEnabled] = useState(false);
     const [isAudioEnabled, setIsAudioEnabled] = useState(false);
     const [error, setError] = useState(null);

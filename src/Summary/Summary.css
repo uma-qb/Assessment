@@ -1,7 +1,7 @@
 .heading{
     color: #004384;
     font-weight: bold;
-    font-size: 30px;
+    font-size: 25px;
     margin-left: 15px;
 }
 .hrLine{
@@ -10,6 +10,17 @@
     margin-right: 25px;
 }
 .sectionTitle{
-    margin-left:  20px;
-    margin-right: 20px;
+    margin: 5px 0 !important;
+    display: block;
+}
+
+.accordion .accordion-button {
+    padding: 10px 16px;
+    background-color: #f2f2f2;
+    outline: none;
+    box-shadow: none;
+}
+
+.scrollit .accordion, .scrollit .accordion .accordion-button {
+    border-radius: 0 !important;
 }
