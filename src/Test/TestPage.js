@@ -6,7 +6,6 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Pagination from 'react-bootstrap/Pagination';
 import { BsCloudCheck, BsClockHistory, BsBookmarkFill, BsBookmark } from "react-icons/bs";
-// import questionsData from './questions.json';
 import logo from './../images/qbrainxlogo.png';
 import { BsX } from "react-icons/bs";
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -18,67 +17,81 @@ import { TbProgress } from "react-icons/tb";
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import SummaryPage from '../Summary/SummaryPage';
 import { Slide, toast } from 'react-toastify';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import ReactDOMServer from 'react-dom/server';
+import { FcAlarmClock } from "react-icons/fc";
 
 function TestPage() {
   const navigate = useNavigate();
-  // const location = useLocation();
-  const { questions, selectedSection: sectionID, selectedGroup: group } = useContext(UserContext)
-  // const { sectionID, group } = location.state
+  const { questions, selectedSection: sectionID, selectedGroup: group, baseUrl } = useContext(UserContext)
   const testQuestions = questions;
   const totalTestDuration = testQuestions.total_duration * 60;
-  // console.log(testQuestions.questions)
+  const MySwal = withReactContent(Swal)
 
-  // const data = testQuestions.questions;
-  // const result = [];
-  // for (let i = 0; i < categories.length; i++) {
-  //   const category = categories[i];
-  //   const sectionIds = Object.keys(data[category]);
-
-  //   for (let j = 0; j < sectionIds.length; j++) {
-  //     const cid = sectionIds[j];
-  //     const prevSection = sectionIds[j - 1] || null;
-  //     const prevSectionGroup = sectionIds[j - 1] ? category : null;
-
-  //     let nextSection = sectionIds[j + 1] || null;
-  //     let nextSectionGroup = sectionIds[j + 1] ? category : null;
-
-  //     // If no next section in the current category, check the next category
-  //     if (!nextSection && i < categories.length - 1) {
-  //       const nextCategory = categories[i + 1];
-  //       const nextCategorySectionIds = Object.keys(data[nextCategory]);
-  //       nextSection = nextCategorySectionIds[0];
-  //       nextSectionGroup = nextCategory;
-  //     }
-
-  //     result[cid] = {
-  //       prevSection,
-  //       prevSectionGroup,
-  //       nextSection,
-  //       nextSectionGroup
-  //     };
-  //   }
-  // }
-
-  // console.log(result);
-  // return
-
-
-  // console.log(testQuestions?.questions[group][sectionID]['section_questions'])
-  const questionsData = testQuestions?.questions;
-  // console.log(questionsData)
   const [sections, setSections] = useState();
   const [currentSectionIndex, setCurrentSectionIndex] = useState(sectionID);
   const [currentSectionQuestionCount, setCurrentSectionQuestionCount] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedChoices, setSelectedChoices] = useState({});
   const [revisitQuestions, setRevisitQuestions] = useState({});
-  const [revisitValues, setRevisitValues] = useState({});
   const [sectionChoices, setSectionChoices] = useState([]);
   const [attemptedCount, setAttemptedCount] = useState();
   const [finalReportResponse, setFinalReportResponse] = useState({});
   const [showCanvas, setShowCanvas] = useState(false);
   const [sectionwiseReport, setSectionwiseReport] = useState([]);
   const handleCanvasClose = () => setShowCanvas(false);
+  const childRef = useRef(null);
+
+  const callHandleTest = async () => {
+    // if (childRef.current) {
+    //   childRef.current.handleFinishTest(); //call child's method
+    // }
+
+    const token = localStorage.getItem("token")
+    // let end_date = new Date()
+
+    // let year = end_date.getFullYear();
+    // let month = String(end_date.getMonth() + 1).padStart(2, '0'); // getMonth() returns month from 0-11
+    // let day = String(end_date.getDate()).padStart(2, '0');
+    // let hours = String(end_date.getHours()).padStart(2, '0');
+    // let minutes = String(end_date.getMinutes()).padStart(2, '0');
+    // let seconds = String(end_date.getSeconds()).padStart(2, '0');
+
+    // let formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    // formattedDate = "2024-07-23 16:56:43"
+
+    // console.log(formattedDate)
+
+    try {
+      const url = `${baseUrl}/final_quiz_submit`;
+      const response = await axios.post(url, {
+        // end_date: formattedDate,
+        token: token
+      })
+      navigate("/feedback")
+    } catch (error) {
+      let errMsg = "Something went wrong!";
+      if (error.response.status == 404) {
+        errMsg = "404 - Route Not Found";
+      } else if (error.response) {
+        let msg = error.response.data.message
+        errMsg = msg.replace(/^Error: /, '')
+      }
+
+      toast.error(errMsg, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide
+      })
+    }
+  }
 
   if (!localStorage.getItem("totalTestTimeTaken")) {
     localStorage.setItem("totalTestTimeTaken", totalTestDuration);
@@ -87,15 +100,12 @@ function TestPage() {
 
   // Array(questionsData.length).fill({}).map(() => ({}))
 
-
-
   const [savingCompleted, setSavingCompleted] = useState(false);
   const [savingInprogress, setSavingInprogress] = useState(false)
   const [options, setOptions] = useState()
   // const [currentSectionID, setCurrentSectionID] = useState(sectionID)
   const [currentGroup, setCurrentGroup] = useState(group)
 
-  const [errorMessage, setErrorMessage] = useState(null)
   const token = localStorage.getItem("token")
 
   const transformResponseToSections = (data) => {
@@ -184,7 +194,7 @@ function TestPage() {
 
     /*
     const handleFullscreenChange = (e) => {
-
+   
       console.log(e.key)
       if (document.fullscreenElement) {
         // Re-enter fullscreen if user tries to exit
@@ -193,15 +203,15 @@ function TestPage() {
         });
       }
     };
-
+   
     // Add event listener for fullscreen change
     document.addEventListener('fullscreenchange', handleFullscreenChange);
-
+   
     // Enter fullscreen when the component mounts
     document.documentElement.requestFullscreen().catch(err => {
       console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
     });
-
+   
     // Cleanup event listener on component unmount
     return () => {
       document.removeEventListener('fullscreenchange', handleFullscreenChange);
@@ -226,9 +236,32 @@ function TestPage() {
 
 
   const handleFinishTestClick = async () => {
-    const response = await axios.get(`http://127.0.0.1:8000/api/get_final_report/${token}`);
-    let category_group = response.data.counts_by_category_group
-    setSectionwiseReport([category_group])
+    try {
+      const url = `${baseUrl}/get_final_report/${token}`;
+      const response = await axios.get(url);
+      let category_group = response.data.counts_by_category_group
+      setSectionwiseReport([category_group])
+      setShowCanvas(true)
+    } catch (error) {
+      let errMsg = "Something went wrong!"
+      if (error.response.status == 404) {
+        errMsg = "404 - Route Not Found"
+      } else if (error.response) {
+        let msg = error.response.data.message
+        errMsg = msg.replace(/^Error: /, '')
+      }
+      toast.error(errMsg, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide
+      })
+    }
     // let reportResponse = {}
     // Object.keys(reportRespond).forEach((category) => {
     // console.log(reportRespond[category])
@@ -237,7 +270,6 @@ function TestPage() {
     // })
     // console.log(reportResponse)
 
-    setShowCanvas(true)
     // navigate('/summary', {
     // });
   };
@@ -275,11 +307,29 @@ function TestPage() {
   const sectionTimeRef = useRef(sectionDuration[currentSectionIndex] * 60);
   const prevSectionRef = useRef(sectionDuration[currentSectionIndex]);
 
-  // useEffect(() => {
-  //   localStorage.setItem("totalTestTimeTaken", totalTestTime);
-  // }, [totalTestTime])
+  const callAlert = () => {
+    MySwal.fire({
+      title: 'Time is Up!',
+      html: ReactDOMServer.renderToString(<FcAlarmClock size={40} />),
+      showCloseButton: false,
+      backdrop: false,
+      showDenyButton: true,
+      denyButtonText: `Submit Quiz`,
+      showConfirmButton: false,
+      width: '400px',
+      timer: 10000,
+      timerProgressBar: true,
+      willClose: () => {
+        callHandleTest()
+      },
+      customClass: {
+        popup: 'custom-swal-box' // Apply your custom CSS class here
+      }
+    })
+  }
 
   useEffect(() => {
+    if (!totalTestDuration) { return }
     let totalTestTimer;
     if (totalTestTime > 0) {
       totalTestTimer = setInterval(() => {
@@ -288,6 +338,9 @@ function TestPage() {
             clearInterval(totalTestTimer);
           }
           const newTime = prevTime - 1
+          if (newTime == 0) {
+            callAlert()
+          }
           localStorage.setItem('totalTestTimeTaken', newTime);
           // if (newTime <= 0) {
           //   clearInterval(totalTestTimer);
@@ -303,18 +356,7 @@ function TestPage() {
     }
 
     if (totalTestTime == 0) {
-      let errMsg = "Time UP!"
-      toast.error(errMsg, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Slide
-      })
+      callAlert()
     }
 
     const sectionTimer = setInterval(() => {
@@ -370,7 +412,7 @@ function TestPage() {
     setSavingCompleted(false)
     setSavingInprogress(true)
     const timeTaken = await calculateTimeDifference()
-    console.log(timeTaken)
+
     const data = {
       token: token,
       qq_id: currentQuestion.qq_id,
@@ -381,12 +423,12 @@ function TestPage() {
     if (option === null) {
       config = {
         method: "put",
-        url: "http://127.0.0.1:8000/api/clear_answers",
+        url: `${baseUrl}/clear_answers`,
         data: data
       }
     } else {
       config = {
-        url: "http://127.0.0.1:8000/api/save_answers",
+        url: `${baseUrl}/save_answers`,
         method: "post",
         data: data
       }
@@ -397,11 +439,24 @@ function TestPage() {
       const currentTime = new Date().toISOString();
       localStorage.setItem('startTime', currentTime)
     } catch (error) {
-      console.log(error.response)
-      if (error.response) {
-        setErrorMessage(error.response.data.message);
-        setShowToast(true);
+      let errMsg = "Something went wrong!"
+      if (error.response.status == 404) {
+        errMsg = "404 - Route Not Found"
+      } else if (error.response) {
+        let msg = error.response.data.message
+        errMsg = msg.replace(/^Error: /, '')
       }
+      toast.error(errMsg, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide
+      })
     } finally {
       setSavingInprogress(false)
       getFinalReport()
@@ -410,7 +465,8 @@ function TestPage() {
 
   const getFinalReport = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/get_final_report/${token}`);
+
+      const response = await axios.get(`${baseUrl}/get_final_report/${token}`);
       setFinalReportResponse(response.data)
       const responseDetails = response.data.counts_by_category_group[currentGroup][currentSectionIndex]
       console.log(response.data)
@@ -420,10 +476,35 @@ function TestPage() {
         acc[index + 1] = question.revisit;
         return acc;
       }, {});
-      setRevisitValues(revisit)
+      Object.keys(revisit).forEach(index => {
+        let key = `${currentSectionIndex}-${index}`
+        // revisitQuestions[`${currentSectionIndex}-${i}`]
+        setRevisitQuestions((prevRevisitQuestions) => {
+          const newRevisitQuestions = { ...prevRevisitQuestions };
+          newRevisitQuestions[key] = revisit[index];
+          return newRevisitQuestions
+        })
+      })
 
     } catch (error) {
-      console.log(error.response)
+      let errMsg = "Something went wrong!"
+      if (error.response.status == 404) {
+        errMsg = "404 - Route Not Found"
+      } else if (error.response) {
+        let msg = error.response.data.message
+        errMsg = msg.replace(/^Error: /, '')
+      }
+      toast.error(errMsg, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide
+      })
     }
   }
 
@@ -444,7 +525,8 @@ function TestPage() {
     if (Object.keys(selectedChoices).length == 0 && attemptedCount > 0) {
       const fetchQuestions = async () => {
         try {
-          const response = await axios.get(`http://127.0.0.1:8000/api/get_final_report/${token}`)
+          const url = `${baseUrl}/get_final_report/${token}`
+          const response = await axios.get(url)
           const question_wise_report = response.data.questions_wise_report
           let selectedChoices = {}
           Object.keys(question_wise_report).forEach((category) => {
@@ -453,7 +535,24 @@ function TestPage() {
           })
           setSelectedChoices(selectedChoices)
         } catch (error) {
-          console.log(error.response)
+          let errMsg = "Something went wrong!"
+          if (error.response.status == 404) {
+            errMsg = "404 - Route Not Found"
+          } else if (error.response) {
+            let msg = error.response.data.message
+            errMsg = msg.replace(/^Error: /, '')
+          }
+          toast.error(errMsg, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Slide
+          })
         }
       }
       fetchQuestions()
@@ -527,25 +626,43 @@ function TestPage() {
 
 
   const handleToggleRevisit = (questionNumber) => {
-
-    // const revisit = async (revisit) => {
-    //   try {
-    //     const response = await axios.put("http://127.0.0.1:8000/api/revisit_question", { token: token, qq_id: currentQuestion.qq_id, revisit: revisit })
-    //     getFinalReport()
-    //     // console.log(revisit)
-    //   } catch (error) {
-    //     // console.log(error.response)
-    //   }
-    // }
+    const key = `${currentSectionIndex}-${questionNumber}`;
+    const revisit = async (revisit) => {
+      try {
+        const url = `${baseUrl}/revisit_question`
+        const response = await axios.put(url, { token: token, qq_id: currentQuestion.qq_id, revisit: revisit })
+        getFinalReport()
+        // console.log(revisit)
+      } catch (error) {
+        let errMsg = "Something went wrong!"
+        if (error.response.status == 404) {
+          errMsg = "404 - Route Not Found"
+        } else if (error.response) {
+          let msg = error.response.data.message
+          errMsg = msg.replace(/^Error: /, '')
+        }
+        toast.error(errMsg, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Slide
+        })
+      }
+    }
     setRevisitQuestions((prevRevisitQuestions) => {
       const key = `${currentSectionIndex}-${questionNumber}`;
       const newRevisitQuestions = { ...prevRevisitQuestions };
       if (newRevisitQuestions[key]) {
         delete newRevisitQuestions[key];
-        // revisit(0)
+        revisit(0)
       } else {
         newRevisitQuestions[key] = true;
-        // revisit(1)
+        revisit(1)
       }
       return newRevisitQuestions;
     });
@@ -618,12 +735,12 @@ function TestPage() {
         </Col>
         <Col xs={12} md={3}>
           <div style={{ float: "right", color: "white" }}>
-            {totalTestTime !== 0 && sectionTimes[currentSectionIndex] && (<><BsClockHistory className='clockIcon' style={{ marginTop: "28px", color: "white", float: "left" }} />
+            {sectionTimes[currentSectionIndex] && (<><BsClockHistory className='clockIcon' style={{ marginTop: "28px", color: "white", float: "left" }} />
               <div style={{ float: "right", color: "white", marginTop: "20px" }}>
                 {/* <span>Section Time: {formatTime(sectionTimes[currentSectionIndex])}</span> */}
                 <span>Section Time: N/A</span>
                 <div></div>
-                <span>{(totalTestTime) ? `Total Test Time: ${formatTime(totalTestTime)}`: ""}</span>
+                <span>Total Test Time: {totalTestDuration === 0 ? "Infinite" : (totalTestTime) ? `${formatTime(totalTestTime)}` : "00:00:00"}</span>
               </div></>)}
           </div>
         </Col>
@@ -678,7 +795,7 @@ function TestPage() {
               <Row>
                 <Col xs={12} md={6} style={{ marginTop: "20px" }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: "20px" }}>
-                    <span style={{ fontWeight: "bold" }}>Question {currentQuestion.number}</span>
+                    <span style={{ fontWeight: "bold" }}>Question </span>
                     <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => handleToggleRevisit(currentPage)}>
                       {/* {(revisitQuestions[`${currentSectionIndex}-${currentPage}`]) ? (
                         <BsBookmarkFill style={{ marginRight: '2px', width: "13px", height: "13px", color: 'orange' }} />
@@ -689,7 +806,7 @@ function TestPage() {
                       )} 
                       <span>{revisitQuestions[`${currentSectionIndex}-${currentPage}`] ? 'Remove Revisit' :
                         revisitValues[currentPage] ? 'Remove Revisit' :
-                          'Revisit'}</span>*/}
+                          'Revisit'}</span> */}
                       {(revisitQuestions[`${currentSectionIndex}-${currentPage}`]) ? (
                         <BsBookmarkFill style={{ marginRight: '2px', width: "13px", height: "13px", color: 'orange' }} />
                       ) : <BsBookmark style={{ marginRight: '2px', width: "13px", height: "13px" }} />
@@ -698,7 +815,7 @@ function TestPage() {
                         'Revisit'}</span>
                     </div>
                   </div>
-                  <p>{currentQuestion.question}{currentQuestion.qq_id}</p>
+                  <p>{currentQuestion.question}</p>
                   <div>{currentQuestion.description}</div>
                 </Col>
                 <Col xs="auto" className="verticalLine"></Col>
@@ -730,7 +847,7 @@ function TestPage() {
       </Row>
       <Offcanvas show={showCanvas} onHide={handleCanvasClose} placement="end" className="custom-offcanvas">
         <Offcanvas.Body>
-          <SummaryPage sectionwiseReport={sectionwiseReport} handleCanvasClose={handleCanvasClose} attemptedCount={finalReportResponse?.overall_counts?.attempted} revisitCount={finalReportResponse?.overall_counts?.revisit} totalQuestions={finalReportResponse?.overall_counts?.attempted + finalReportResponse?.overall_counts?.unattempted} />
+          <SummaryPage ref={childRef} sectionwiseReport={sectionwiseReport} handleCanvasClose={handleCanvasClose} attemptedCount={finalReportResponse?.overall_counts?.attempted} revisitCount={finalReportResponse?.overall_counts?.revisit} totalQuestions={finalReportResponse?.overall_counts?.attempted + finalReportResponse?.overall_counts?.unattempted} />
         </Offcanvas.Body>
       </Offcanvas>
     </div>

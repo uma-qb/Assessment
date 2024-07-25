@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap");
 
-* {
+.feedbackForm {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -10,13 +10,14 @@
   font-family: Open Sans;
   text-decoration: none;
   font-size: 14px;
-}
-
-body {
   background: #0f6cbd;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.card-container {
+.feedbackForm .card-container {
   background: #f8faff;
   color: #4b537c;
   width: 100%;
@@ -24,13 +25,12 @@ body {
   padding: 40px;
   border-radius: 15px;
   margin: 0 auto;
-  margin-top: 50px;
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-.feedback-msg textarea {
+.feedbackForm .feedback-msg textarea {
   margin-top: 5px;
   border: solid 2px #e0e9fe;
   padding: 13px;
@@ -45,13 +45,13 @@ body {
   resize: none;
 }
 
-.buttonsec {
+.feedbackForm .buttonsec {
   display: flex;
   gap: 10px;
   justify-content: end;
 }
 
-#feed_submit {
+.feedbackForm #feed_submit {
   background: #03a9f4;
   color: #fff;
   padding: 10px;
@@ -59,70 +59,80 @@ body {
   border-radius: 4px;
   border: 1px solid #03a9f4;
 }
-#feed_submit:hover {
+
+.feedbackForm #feed_submit:hover {
   text-decoration: none;
   opacity: 0.7;
 }
-.top-para {
+
+.feedbackForm .top-para {
   text-align: center;
   margin: 0;
 }
 
-.feedback-level {
+.feedbackForm .feedback-level {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.level {
+
+.feedbackForm .level {
   background: white;
   padding: 13px;
   border-radius: 7px;
   border: solid 0.5px #e0e9fe;
   cursor: pointer;
 }
-.level:hover {
+
+.feedbackForm .level:hover {
   box-shadow: #03a9f4 0 2px 5px;
 }
-.level:hover i {
+
+.feedbackForm .level:hover i {
   color: #03a9f4;
 }
 
-.level.active {
+.feedbackForm .level.active {
   box-shadow: #03a9f4 0 2px 5px;
 }
-.level.active i {
+
+.feedbackForm .level.active i {
   color: #03a9f4;
 }
 
-.level i {
+.feedbackForm .level i {
   font-size: 40px;
 }
 
-.heading {
+.feedbackForm .heading {
   text-align: center;
   font-weight: 600;
   margin: 0;
 }
-.tooltip {
+
+.feedbackForm .tooltip {
   cursor: pointer;
 }
-.para {
+
+.feedbackForm .para {
   font-weight: 600;
 }
 
-.thanks-content {
+.feedbackForm .thanks-content {
   text-align: center;
 }
-.thanks-content h3 {
+
+.feedbackForm .thanks-content h3 {
   font-weight: bold;
   margin-top: 0;
 }
-.thanks-content p {
+
+.feedbackForm .thanks-content p {
   font-size: 17px;
   line-height: 26px;
 }
 
-.green-tick {
+.feedbackForm .green-tick {
   margin: 0 auto;
   width: 100px;
 }

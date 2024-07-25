@@ -3,20 +3,12 @@ import './../App.css';
 import Image from 'react-bootstrap/Image';
 import Card from 'react-bootstrap/card';
 import Button from 'react-bootstrap/Button';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import timerImage from './../images/timer.jpg'
-import axios from 'axios';
-import UserContext from '../UserContext';
 
 function QuizProceed() {
-  const location = useLocation();
-  const { questions } = useContext(UserContext);
-  console.log(questions)
-  // const { sectionID, group } = location.state
-  
   const navigate = useNavigate();
-
-  const [seconds, setSeconds] = useState(5);
+  const [seconds, setSeconds] = useState(60);
 
   // Effect to update the timer every second
   useEffect(() => {

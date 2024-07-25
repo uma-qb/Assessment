@@ -14,7 +14,7 @@ import axios from 'axios';
 import UserContext from './UserContext';
 
 import logo from './images/qbrainxlogo.png';
-import { ToastContainer, toast, Slide } from 'react-toastify';
+import { toast, Slide } from 'react-toastify';
 
 
 const Firstpage = () => {
@@ -26,39 +26,44 @@ const Firstpage = () => {
     let [testToken, setTestToken] = useState(token)
 
     useEffect(() => {
-        // alert(testToken);return
         if (testToken) {
             localStorage.setItem("token", testToken);
         } else {
             token = localStorage.getItem("token")
             setTestToken(token)
-        //     alert(token);
-        //     return;
         }
-        
+
         if (testToken) {
 
             const fetchData = async () => {
                 try {
-                    // const response = await axios.get('http://127.0.0.1:8000/api/quiz_details/s6FyVfpfXhGjZDaSI23x3f2eiXNGsNEMwVtm7PFv');
+                    
                     const response = await axios.get(`http://127.0.0.1:8000/api/quiz_details/${token}`);
                     setResponseData(response.data);
                     setUserData(response.data);
                     setErrorMessage(null)
                 } catch (error) {
-                    const msg = error.response.data.message;
-                    setErrorMessage(msg)
-                    toast.error(msg, {
-                        position: "top-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                        transition: Slide
-                    });
+                    if (error.response) {
+                        let msg = 'Something went wrong!'
+                        if (error.response.status == 404) {
+                            msg = "404 - Route Not Found";
+                        } else if (error.response) {
+                            let errmsg = error.response.data.message;
+                            msg = errmsg.replace(/^Error: /, '')
+                        }
+                        setErrorMessage(msg)
+                        toast.error(msg, {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                            transition: Slide
+                        });
+                    }
                 }
             };
 
@@ -92,7 +97,6 @@ const Firstpage = () => {
 
     return (
         <>
-           
             {testToken && !errorMessage ? (
                 <div style={{ minHeight: "100vh" }}>
                     <Row className="first_section">

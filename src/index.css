@@ -72,3 +72,17 @@ box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25)
 .unattempted {
   background-color: #ff9696; /* Red for unattempted */
 }
+
+.custom-swal-box {
+  padding: 20px 0 40px; /* Adjust the padding as needed */
+  /* background-color: #f8faff; /* Optional: Customize the background color */
+  /* border-radius: 10px; /* Optional: Customize the border radius */
+}
+
+/* summary scroll styles*/
+.scrollit {
+  height: calc(100vh - 370px) !important; /* Set the desired height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden; /* Hide horizontal scrolling if not needed */
+  padding-right: 10px;
+}
